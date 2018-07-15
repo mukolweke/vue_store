@@ -26,8 +26,11 @@
                 firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
 
                     (user) => {
-                        // this.$router.replace('customer')
-                        this.$router.replace('admin')
+                        if(this.email === "mikekuku@gmail.com"){
+                            this.$router.replace('admin')
+                        }else{
+                            this.$router.replace('customer')
+                        }
                     },
 
                     (err) => {

@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import CustomerIndex from '@/components/customer/CustomerIndex'
 import AdminIndex from '@/components/admin/AdminIndex'
+import CreateProduct from '@/components/admin/CreateProduct'
+import ViewOrders from '@/components/admin/ViewOrders'
 import Login from '@/components/auth/Login'
 import Signup from '@/components/auth/Signup'
 import firebase from 'firebase'
@@ -49,6 +51,28 @@ let router =  new Router({
             path: '/admin',
             name: 'admin',
             component: AdminIndex,
+            // help verify user login
+            meta:{
+                requiresAuth: true
+            }
+
+        },
+
+        {
+            path: '/admin/create',
+            name: 'admin-create',
+            component: CreateProduct,
+            // help verify user login
+            meta:{
+                requiresAuth: true
+            }
+
+        },
+
+        {
+            path: '/admin/orders',
+            name: 'admin-orders',
+            component: ViewOrders,
             // help verify user login
             meta:{
                 requiresAuth: true

@@ -1,48 +1,52 @@
 <template>
     <div>
         <el-container>
-        <el-card class="box-card-outer">
-            <p v-if="errors.length">
-            <div class="error">
-                <ul>
-                    <li v-for="error in errors">{{ error }}</li>
-                </ul>
-            </div>
-            <el-row>
-                <el-col :span="12">
-                    <el-form ref="form" :model="form" label-width="120px">
-                        <el-form-item label="Product Name: ">
-                            <el-input class="inpt" v-model="form.product_name"></el-input>
-                        </el-form-item>
-                        <el-form-item label="Product Type: ">
-                            <el-input class="inpt"v-model="form.product_type"></el-input>
-                        </el-form-item>
-                        <el-form-item label="Description: ">
-                            <el-input class="inpt"v-model="form.product_desc"></el-input>
-                        </el-form-item>
-                        <el-form-item label="Product Price: ">
-                            <el-input class="inpt"v-model="form.product_price"></el-input>
-                        </el-form-item>
-                        <el-input v-model="form.product_id" type="hidden" value="1"/>
-                        <el-form-item label="Product Stock: ">
-                            <el-input class="inpt"v-model="form.product_stock"></el-input>
-                        </el-form-item>
+            <el-card class="box-card-outer">
+                <p v-if="errors.length">
+                <div class="error">
+                    <ul>
+                        <li v-for="error in errors">{{ error }}</li>
+                    </ul>
+                </div>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form ref="form" :model="form" label-width="120px">
+                            <el-form-item label="Product Name: ">
+                                <el-input class="inpt" v-model="form.product_name"></el-input>
+                            </el-form-item>
+                            <el-form-item label="Product Type: ">
+                                <el-input class="inpt" v-model="form.product_type"></el-input>
+                            </el-form-item>
+                            <el-form-item label="Description: ">
+                                <el-input class="inpt" v-model="form.product_desc"></el-input>
+                            </el-form-item>
+                            <el-form-item label="Product Price: ">
+                                <el-input class="inpt" v-model="form.product_price"></el-input>
+                            </el-form-item>
+                            <el-input v-model="form.product_id" type="hidden" value="1"/>
+                            <el-form-item label="Product Stock: ">
+                                <el-input class="inpt" v-model="form.product_stock"></el-input>
+                            </el-form-item>
 
-                        <el-form-item>
-                            <el-button type="success" @click="addProduct()"><i class="el-icon-check"></i> Product</el-button>
-                        </el-form-item>
-                    </el-form>
-                </el-col>
-            </el-row>
+                            <el-form-item>
+                                <el-button type="success" @click="submitName()"><i class="el-icon-check"></i> Product
+                                </el-button>
+                            </el-form-item>
+                        </el-form>
+                    </el-col>
+                </el-row>
 
-        </el-card>
+            </el-card>
         </el-container>
     </div>
 </template>
 
 <script>
+    import {db} from '../../firebase.conf'
+    import {namesRef} from '../../firebase.conf'
+
+    let vm = this;
     export default {
-        name: "product_form",
         data() {
             return {
                 productDialog: false,
@@ -54,12 +58,32 @@
                     product_stock: 0,
                 },
                 products: [],
-                errors:[]
+                errors: []
             }
+        },
+        firebase :{
+            product: db.ref('product')
         },
         methods: {
 
-            addProduct:function(){
+            submitName() {
+                this.$firebaseRefs.product.push({
+                    name: this.form.product_name,
+                    type: this.form.product_type,
+                    desc: this.form.product_desc,
+                    price: this.form.product_price,
+                    stock: this.form.product_stock,
+                    edit:false
+                })
+                this.form.product_name = '';
+                this.form.product_type = '';
+                this.form.product_desc = '';
+                this.form.product_price = 0;
+                this.form.product_stock = 0;
+                alert("Succeessfully added")
+            },
+
+            addProduct: function () {
 
                 this.errors = [];
 
@@ -107,9 +131,11 @@
         margin: 20px auto;
         width: 500px;
     }
-    .inpt{
+
+    .inpt {
         width: 300px;
     }
+
     .error {
         background: #F56C6C;
         border-radius: 5px;

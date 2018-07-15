@@ -61,7 +61,7 @@ const store = new Vuex.Store({
         GET_PRODUCT(state, id){
 
             const product = state.products.find(product => product.product_id === id);
-            console.log(product);
+            console.log('hgfd');
         }
 
     },
