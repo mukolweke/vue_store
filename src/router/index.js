@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import Login from '@/components/Login'
-import Signup from '@/components/Signup'
+import CustomerIndex from '@/components/customer/CustomerIndex'
+import AdminIndex from '@/components/admin/AdminIndex'
+import Login from '@/components/auth/Login'
+import Signup from '@/components/auth/Signup'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -17,7 +18,6 @@ let router =  new Router({
 
         {
             path: '/',
-            name: 'Login',
             component: Login
         },
 
@@ -35,9 +35,20 @@ let router =  new Router({
 
 
         {
-            path: '/hello',
-            name: 'HelloWorld',
-            component: HelloWorld,
+            path: '/customer',
+            name: 'customer',
+            component: CustomerIndex,
+            // help verify user login
+            meta:{
+                requiresAuth: true
+            }
+
+        },
+
+        {
+            path: '/admin',
+            name: 'admin',
+            component: AdminIndex,
             // help verify user login
             meta:{
                 requiresAuth: true
