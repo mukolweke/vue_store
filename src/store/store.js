@@ -12,14 +12,42 @@ const store = new Vuex.Store({
         password: '',
         users: [{username: 'admin', useremail: 'admin@admin.com', userphone: '123456789', password: 'admin'}],
         products: [
-            {product_name:'PLAYSTATION',product_type:'PS2',product_desc:'2ND HAND, CHIPPED',product_price:'9000',product_stock:20,product_id:1},
-            {product_name:'GAMES',product_type:'NBA 2K19',product_desc:'SEALED',product_price:'6500',product_stock:10,product_id:2},
-            {product_name:'GAME PADS',product_type:'PS2',product_desc:'Original',product_price:'500',product_stock:10,product_id:3},
-            {product_name:'PLAYSTATION',product_type:'XBOX',product_desc:'XBOX LIVE',product_price:'25000',product_stock:10,product_id:4},
+            {
+                product_name: 'PLAYSTATION',
+                product_type: 'PS2',
+                product_desc: '2ND HAND, CHIPPED',
+                product_price: '9000',
+                product_stock: 20,
+                product_id: 1
+            },
+            {
+                product_name: 'GAMES',
+                product_type: 'NBA 2K19',
+                product_desc: 'SEALED',
+                product_price: '6500',
+                product_stock: 10,
+                product_id: 2
+            },
+            {
+                product_name: 'GAME PADS',
+                product_type: 'PS2',
+                product_desc: 'Original',
+                product_price: '500',
+                product_stock: 10,
+                product_id: 3
+            },
+            {
+                product_name: 'PLAYSTATION',
+                product_type: 'XBOX',
+                product_desc: 'XBOX LIVE',
+                product_price: '25000',
+                product_stock: 10,
+                product_id: 4
+            },
         ],
 
-        Cart:[
-            {item_name:'PS4',item_quantity: 12, item_price:200, item_id:1}
+        Cart: [
+            {item_name: 'PS4', item_quantity: 12, item_price: 200, item_id: 1}
         ]
 
     },
@@ -34,34 +62,48 @@ const store = new Vuex.Store({
             state.products.push(newProduct);
         },
 
-        ADD_CART(state, addCartItem) { state.Cart.push(addCartItem); },
+        ADD_CART(state, addCartItem) {
+            state.Cart.push(addCartItem);
+        },
 
-        DEL_PRODUCT(state, id){
-            var index = state.products.indexOf(id);
+        DEL_PRODUCT(state, id) {
+            let index = state.products.indexOf(id);
             if (index > -1) {
                 state.products.splice(index, 1);
             }
         },
 
-        REMOVE_FROM_CART(state, index) { state.Cart.splice(index, 1); },
-
-
-        INC_ITEM_CART (state, id) {
-            const cartItem = state.Cart.find(item => item.item_id === id)
-            const productItem = state.products.find(product => product.product_id === id)
-            if(cartItem.item_quantity<productItem.product_stock){cartItem.item_quantity++}
+        REMOVE_FROM_CART(state, id) {
+            let index = state.Cart.indexOf(id);
+            if (index > -1) {
+                state.Cart.splice(index, 1);
+            }
         },
 
-        DEC_ITEM_CART (state, id) {
+
+        INC_ITEM_CART(state, id) {
             const cartItem = state.Cart.find(item => item.item_id === id)
             const productItem = state.products.find(product => product.product_id === id)
-            if(cartItem.item_quantity>0){cartItem.item_quantity--}
+            if (cartItem.item_quantity < productItem.product_stock) {
+                cartItem.item_quantity++
+            }
         },
 
-        GET_PRODUCT(state, id){
+        DEC_ITEM_CART(state, id) {
+            const cartItem = state.Cart.find(item => item.item_id === id)
+            const productItem = state.products.find(product => product.product_id === id)
+            if (cartItem.item_quantity > 0) {
+                cartItem.item_quantity--
+            }
+        },
+
+        GET_PRODUCT(state, id) {
 
             const product = state.products.find(product => product.product_id === id);
-            console.log('hgfd');
+        },
+
+        CLEAR_CART(state){
+            state.Cart = [];
         }
 
     },
@@ -75,7 +117,7 @@ const store = new Vuex.Store({
             store.commit('ADD_PRODUCT', newProduct);
         },
 
-        deleteProduct(store, id){
+        deleteProduct(store, id) {
             store.commit('DEL_PRODUCT', newProduct);
         },
 
@@ -83,18 +125,25 @@ const store = new Vuex.Store({
             store.commit('ADD_CART', addCartItem);
         },
 
-        incrementItemQuantity(store, id){
+        incrementItemQuantity(store, id) {
             store.commit('INC_ITEM_CART', id);
         },
 
-        decrementItemQuantity(store, id){
+        decrementItemQuantity(store, id) {
             store.commit('DEC_ITEM_CART', id);
         },
 
-        getProduct(store, id){
+        getProduct(store, id) {
             store.commit('GET_PRODUCT', id);
         },
-        removeFromCart(context, index) { context.commit('REMOVE_FROM_CART', index); },
+
+        removeFromCart(store, index) {
+            store.commit('REMOVE_FROM_CART', index);
+        },
+
+        clearCart(store){
+            store.commit('CLEAR_CART');
+        }
 
     },
 

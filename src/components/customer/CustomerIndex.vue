@@ -9,6 +9,7 @@
         </div>
         <el-row>
             <el-col :span="18">
+                <!--using store array-->
                 <ul>
                     <li v-for="product in getProducts">
                         <el-col :span="10">
@@ -16,27 +17,55 @@
 
                                 <img class="my_images" @click="productDialog = true" src="../../assets/ps4.jpg" alt="image"/>
                                 <p> {{product.product_name}} <br> {{product.product_type}} <br> KSH {{product.product_price}}</p>
-                                <el-form ref="form" :model="form" label-width="120px">
-                                    <el-form-item label="Product name: ">
-                                        <el-input class="inpt" type="text" v-model="form.item_name" v-bind:value="{}">1</el-input>
-                                    </el-form-item>
-                                    <el-form-item label="Product id: ">
-                                        <el-input class="inpt" type="number" v-model="form.item_price">fdsfd</el-input>
-                                    </el-form-item>
-                                    <el-form-item label="Product qnty: ">
-                                        <el-input class="inpt" type="number" v-model="form.item_quantity"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="Product price: ">
-                                        <el-input class="inpt" type="number" v-model="form.item_price">{{product.product_price}}</el-input>
-                                    </el-form-item>
-                                    <el-form-item>
-                                        <el-button type="success" @click="addToCart()"><i class="el-icon-check"></i> Add to Cart</el-button>
-                                    </el-form-item>
-                                </el-form>
+
+                                <el-button type="success" @click="addCart(product.product_id)"><i class="el-icon-check"></i> Add to Cart</el-button>
+
+
+
+
+                                <!--<el-form ref="form" :model="form" label-width="120px">-->
+                                    <!--<el-form-item label="Product name: ">-->
+                                        <!--<el-input class="inpt" type="text" v-model="form.item_name" >1</el-input>-->
+                                    <!--</el-form-item>-->
+                                    <!--<el-form-item label="Product id: ">-->
+                                        <!--<el-input class="inpt" type="number" v-model="form.item_price"></el-input>-->
+                                    <!--</el-form-item>-->
+                                    <!--<el-form-item label="Product qnty: ">-->
+                                        <!--<el-input class="inpt" type="number" v-model="form.item_quantity"></el-input>-->
+                                    <!--</el-form-item>-->
+                                    <!--<el-form-item label="Product price: ">-->
+                                        <!--<el-input class="inpt" type="number" v-model="form.item_price">{{product.product_price}}</el-input>-->
+                                    <!--</el-form-item>-->
+                                    <!--<el-form-item>-->
+                                        <!--<el-button type="success" @click="addToCart()"><i class="el-icon-check"></i> Add to Cart</el-button>-->
+                                    <!--</el-form-item>-->
+                                <!--</el-form>-->
                             </div>
                         </el-col>
                     </li>
                 </ul>
+
+
+                <!--using firebase-->
+                <!--<div class="grid-content">-->
+                    <!--<ul>-->
+                        <!--<li v-for="prod in product" v-bind:key="prod['.key']">-->
+                            <!--<el-col :span="12">-->
+                                <!--<div class="grid-content" style="text-align: left;">-->
+                                    <!--<img class="my_images disabled" @click="productDialog()"-->
+                                         <!--src="../../assets/ps4.jpg" alt="image"/>-->
+                                    <!--<p> {{prod.name}} </p><p>Type:&nbsp;{{prod.type}}  </p>-->
+                                    <!--<p> KSH {{prod.price}} </p>-->
+                                    <!--<p>Stock:&nbsp;{{prod.stock}}</p>-->
+                                    <!--<el-button type="success" @click="addCart(prod.id)"><i class="el-icon-check"></i> Add to Cart</el-button>-->
+                                <!--</div>-->
+                            <!--</el-col>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+
+
+
             </el-col>
             <el-col :span="6">
                 <div class="shopping-cart">
@@ -50,6 +79,7 @@
 
 <script>
     import firebase from 'firebase'
+    import {db} from '../../firebase.conf'
     import shoppingCart from './shoppingCart'
 
     export default {
@@ -57,6 +87,7 @@
         data() {
             return {
                 msg:'User View',
+                product_id:null,
                 form: {
                     item_name: '',
                     item_quantity: null,
@@ -67,6 +98,9 @@
                 errors:[]
             }
         },
+        firebase :{
+            product: db.ref('product')
+        },
         methods: {
 
             logout: function () {
@@ -76,17 +110,9 @@
                 })
             },
 
-            addToCart:function () {
-                console.log(form.item_name)
-                if (this.form.item_name && this.form.item_quantity && this.form.item_price && this.form.item_id) {
-                    this.Cart.push(this.form);
-                    this.$store.dispatch('AddToCart', this.form).then(() => {
-                        // this.form = {};
-                        this.open();
-                    });
 
-                    return true;
-                }
+            addCart(id){
+                this.$store.dispatch("AddToCart",id);
             },
 
             open() {

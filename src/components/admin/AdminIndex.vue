@@ -19,15 +19,16 @@
                                      src="../../assets/ps4.jpg" alt="image"/>
                                     <p> {{prod.name}} </p><p>Type:&nbsp;{{prod.type}}  </p><p> KSH
                                         {{prod.price}} </p><p>Stock:&nbsp;{{prod.stock}}</p>
-                                    <el-button @click="removeProduct(prod['.key'])" type="primary">EDIT</el-button>
+                                    <el-button @click="setEditProduct(prod['.key'])" type="primary">EDIT</el-button>
                                     <el-button @click="removeProduct(prod['.key'])" type="danger">REMOVE</el-button>
                                 </div>
                                 <div v-else>
                                     <input type="text" v-model="prod.name"/>
                                     <input type="text" v-model="prod.price"/>
 
-                                    <button class="btn-save" @click="saveEdit(prod)">save</button>
-                                    <button @click="cancelEdit(prod['.key'])">cancel </button>
+                                    <el-button @click="saveEdit(prod)" type="success">SAVE</el-button>
+                                    <el-button @click="cancelEdit(prod['.key'])" type="">CANCEL</el-button>
+
                                 </div>
                             </div>
                         </el-col>
@@ -141,14 +142,6 @@
         },
         computed: {
 
-            getProducts() {
-                return this.$store.getters.getProducts
-            },
-
-            getProductDetails() {
-                return this.$store.getters.getProduct
-            },
-
         },
         methods: {
 
@@ -174,6 +167,7 @@
                 this.$firebaseRefs.product.child(key).set({product:product, edit:false})
 
             },
+
             cancelEdit: function(key){
                 this.$firebaseRefs.product.child(key).update({edit:false})
             },
@@ -199,21 +193,12 @@
                 });
             },
 
-            // in store ...
-            deleteProduct($id) {
-                this.$store.dispatch('deleteProduct', $id);
-            },
             productDialog() {
                 this.productVisibleDialog = true;
             },
             innerVisible() {
                 this.innerVisibleDialog = true;
             },
-            getProduct($id) {
-                this.product = this.$store.dispatch('getProduct', $id);
-                this.prod_id = this.product.product_id;
-                console.log(this.prod_id)
-            }
         },
     }
 </script>

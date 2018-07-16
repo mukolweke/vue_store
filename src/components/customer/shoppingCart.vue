@@ -1,24 +1,30 @@
 <template>
     <div class="cart">
         <p class="cart-title">Shopping Cart</p>
-        <p class="cart-empty" v-if="cart_count === 0">Your Shopping Cart is Empty!</p>
+        <p class="cart-empty" v-if="cart_count <= 0">Your Shopping Cart is Empty!</p>
         <div class="items" v-else>
             <div class="item clearfix" v-for="item in getProductsInCart">
+
+                <span class="btn" @click="clr(item.item_id)" style="cursor: pointer;color: red;">x</span>&nbsp;&nbsp;
+
                 <span class="btn" @click="inc(item.item_id)" style="cursor: pointer;">+</span>&nbsp;&nbsp;
 
                 <span @click="dec(item.item_id)" class="btn" style="cursor: pointer;">-</span>&nbsp;&nbsp;
 
                 <span class="item-title">{{item.item_name}}</span>
 
-                <span class="item-price">
-                    <span style="margin-left: 80px;">x&nbsp;{{item.item_quantity}}</span>
+                <!--<span class="item-price">-->
+                    <span style="margin-left: 40px;">x&nbsp;{{(item.item_quantity)}}</span>&nbsp;
                     <span class="right">$ {{Number(item.item_quantity) * Number(item.item_price)}}</span>
-                </span>
+                <!--</span>-->
             </div>
         </div>
         <div class="cart-total">
             <span>Total</span>
             <span class="right">$ {{total}}</span>
+        </div>
+        <div class="cart-total">
+            <a class="checkout" @click="checkout">CHECKOUT</a>
         </div>
     </div>
 </template>
@@ -28,6 +34,7 @@
     export default {
         data() {
             return {
+
                 cart_count: this.$store.getters.getItemsInCart.count,
                 items: this.$store.getters.getItemsInCart,
                 Cart: [],
@@ -36,11 +43,13 @@
         },
         computed: {
             total() {
-                // return 2;
-                // return (this.items.item_price * this.items.item_quantity){}
+
                 return _.sumBy(this.items, function (item) {
+
                     return (Number(item.item_price) * Number(item.item_quantity))
+
                 })
+
             },
 
             getProductsInCart() {
@@ -48,12 +57,55 @@
             }
         },
         methods: {
-            inc: function ($id) {
-                this.$store.dispatch('incrementItemQuantity', $id);
+
+            clr: function($id) {
+                this.$store.dispatch('removeFromCart', $id);
             },
+
+            inc: function ($id) {
+
+                this.$store.dispatch('incrementItemQuantity', $id);
+
+            },
+
             dec: function ($id) {
+
                 this.$store.dispatch('decrementItemQuantity', $id);
-            }
+
+            },
+
+            cart: function () {
+
+                return this.$store.getters.getItemsInCart.map((cartItem) => {
+
+                    return this.$store.getters.getProducts.find((forSaleItem) => {
+
+                        return cartItem === forSaleItem.invId;
+
+                    });
+
+                });
+            },
+
+            checkout: function () {
+
+                this.$store.dispatch('clearCart');
+                this.open();
+
+            },
+
+            open() {
+                this.$message({
+                    type: 'success',
+                    message: 'Checkout; Till next time',
+                });
+
+            },
+
+        },
+        mounted: {
+
+
         }
 
     }
@@ -63,6 +115,13 @@
         margin-left: 1em;
     }
 
+    .checkout{
+        background: limegreen;
+        cursor: pointer;
+        padding: 5px;
+        color: white;
+        border-radius: 2px;
+    }
     .cart-title {
         margin: 0.5em 0 0 0;
         font-weight: bold;
