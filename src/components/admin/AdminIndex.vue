@@ -103,7 +103,7 @@
 </template>
 
 <script>
-    import product_form from './product_form'
+    import product_form from './Product_form'
     import {db} from '../../firebase.conf'
     import firebase from 'firebase'
 

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-    import product_form from './product_form'
+    import product_form from './Product_form'
     import firebase from 'firebase'
 
 
