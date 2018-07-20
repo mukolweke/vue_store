@@ -12,12 +12,26 @@
                                 <div v-if="!prod.edit"><!--angular used-->
                                 <img class="my_images disabled" @click="productDialog()"
                                      src="../../assets/ps4.jpg" alt="image"/>
-                                    <p> {{prod.name}} </p><p>Type:&nbsp;{{prod.type}}  </p><p> KSH
-                                        {{prod.price}} </p><p>Stock:&nbsp;{{prod.stock}}</p>
+                                    <p>Name:&nbsp;{{prod.name}} </p>
+                                    <p>Type:&nbsp;{{prod.type}} </p>
+                                    <p>Desc:&nbsp;{{prod.desc}}</p>
+                                    <p>KSH:&nbsp;{{prod.price}} </p>
+                                    <p>Stock:&nbsp;{{prod.stock}}</p>
                                     <el-button @click="setEditProduct(prod['.key'])" type="primary">EDIT</el-button>
                                     <el-button @click="removeProduct(prod['.key'])" type="danger">REMOVE</el-button>
                                 </div>
                                 <div v-else>
+                                    <div v-if="prod.edit"><!--angular used-->
+                                        <img class="my_images disabled" @click="productDialog()"
+                                             src="../../assets/ps4.jpg" alt="image"/>
+                                        <p>Name:&nbsp;{{prod.name}} </p>
+                                        <p>Type:&nbsp;{{prod.type}} </p>
+                                        <p>Desc:&nbsp;{{prod.desc}}</p>
+                                        <p>KSH:&nbsp;{{prod.price}} </p>
+                                        <p>Stock:&nbsp;{{prod.stock}}</p>
+                                        <el-button @click="setEditProduct(prod['.key'])" type="primary">EDIT</el-button>
+                                        <el-button @click="removeProduct(prod['.key'])" type="danger">REMOVE</el-button>
+                                    </div>
                                     <input type="text" v-model="prod.name"/>
                                     <input type="text" v-model="prod.price"/>
 
@@ -34,48 +48,6 @@
 
         </el-card>
 
-        <el-row>
-            <el-dialog
-                    :visible.sync="productVisibleDialog"
-                    width="70%"
-                    center>
-                <el-row>
-                    <button @click="cancelEdit(prod['.key'])">cancel </button>
-                    <el-col :span="12">
-                        <img class="my_pop_images" src="../../assets/ps4.jpg" alt="image"/>
-                    </el-col>
-                    <el-col :span="12">
-                        <h1>PLAYSTATION</h1>
-                        <h3>PS4 PRO</h3>
-                        <h4>Description</h4>
-                        <p>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                        </p>
-                        <el-input placeholder="Please input" :disabled="true" v-model="input"></el-input>
-                        <br><br>
-                        <el-row>
-                            <el-col :span="12">
-                                <el-button @click="open2" type="danger">DELETE PRODUCT</el-button>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-button @click="innerVisible" type="primary">EDIT PRODUCT</el-button>
-                            </el-col>
-                        </el-row>
-                    </el-col>
-                </el-row>
-                <el-dialog
-                        width="70%"
-                        :visible.sync="innerVisibleDialog"
-                        append-to-body>
-                    <product_form>
-                        <slot></slot>
-                    </product_form>
-                </el-dialog>
-            </el-dialog>
-            <!---->
-        </el-row>
-
     </div>
 
 </template>
@@ -89,6 +61,7 @@
 
     export default {
         name: "AdminIndex",
+        props:['key'],
         components: {product_form, navbar},
         data() {
             return {
@@ -126,13 +99,12 @@
         methods: {
 
             removeProduct: function(key){
-                this.$firebaseRefs.product.child(key).remove();
-
+                this.open2(key)
+                // this.$firebaseRefs.product.child(key).remove();
             },
 
             setEditProduct: function(key){
                 this.$firebaseRefs.product.child(key).update({edit:true})
-
              },
 
             saveEdit: function(product){
@@ -145,13 +117,14 @@
                 this.$firebaseRefs.product.child(key).update({edit:false})
             },
 
-            open2() {
+            open2(key) {
                 this.$confirm('This will permanently delete the file. Continue?', 'Warning', {
                     confirmButtonText: 'OK',
                     cancelButtonText: 'Cancel',
                     type: 'warning'
                 }).then(() => {
-                    this.deleteProduct($id);
+                    // delete
+                    this.$firebaseRefs.product.child(key).remove();
                     this.$message({
                         type: 'success',
                         message: 'Delete completed'
