@@ -43,7 +43,6 @@
 
 <script>
     import {db} from '../../firebase.conf'
-    import {namesRef} from '../../firebase.conf'
 
     let vm = this;
     export default {

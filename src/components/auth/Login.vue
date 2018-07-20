@@ -9,11 +9,14 @@
 </template>
 
 <script>
-    import firebase from 'firebase'
+    import firebase from 'firebase/app'
+    import 'firebase/auth'
 
-    export default {
+    export default
+    {
         name: "Login",
-        data:function(){
+        data:function()
+        {
             return{
                 email:'',
                 password:''
@@ -21,14 +24,18 @@
         },
         methods:{
 
-            login:function () {
+            login:function ()
+            {
 
                 firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
 
-                    (user) => {
-                        if(this.email === "mikekuku@gmail.com"){
+                    (user) =>
+                    {
+                        if(this.email === "michaelolukaka@gmail.com")
+                        {
                             this.$router.replace('admin')
-                        }else{
+                        }else
+                            {
                             this.$router.replace('customer')
                         }
                     },

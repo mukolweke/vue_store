@@ -78,9 +78,10 @@
 </template>
 
 <script>
-    import firebase from 'firebase'
     import {db} from '../../firebase.conf'
-    import shoppingCart from './shoppingCart'
+    import shoppingCart from './ShoppingCart'
+    import firebase from 'firebase/app'
+    import 'firebase/auth'
 
     export default {
         name: 'customer',
