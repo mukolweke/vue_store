@@ -29,7 +29,7 @@
                             </el-form-item>
 
                             <el-form-item>
-                                <el-button type="success" @click="submitName()"><i class="el-icon-check"></i> Product
+                                <el-button type="success" @click="addProduct()"><i class="el-icon-check"></i> Product
                                 </el-button>
                             </el-form-item>
                         </el-form>
@@ -65,25 +65,7 @@
         },
         methods: {
 
-            submitName() {
-                this.$firebaseRefs.product.push({
-                    name: this.form.product_name,
-                    type: this.form.product_type,
-                    desc: this.form.product_desc,
-                    price: this.form.product_price,
-                    stock: this.form.product_stock,
-                    edit:false
-                })
-                this.form.product_name = '';
-                this.form.product_type = '';
-                this.form.product_desc = '';
-                this.form.product_price = 0;
-                this.form.product_stock = 0;
-                alert("Succeessfully added")
-            },
-
-            addProduct: function () {
-
+            addProduct() {
                 this.errors = [];
 
                 if (!this.form.product_name) {
@@ -103,16 +85,60 @@
                 }
 
                 if (this.form.product_stock && this.form.product_price && this.form.product_type && this.form.product_desc && this.form.product_name) {
-                    this.products.push(this.form);
+
+                    this.$firebaseRefs.product.push({
+                        name: this.form.product_name,
+                        type: this.form.product_type,
+                        desc: this.form.product_desc,
+                        price: this.form.product_price,
+                        stock: this.form.product_stock,
+                        edit: false
+                    })
+
+                    // adds to store
                     this.$store.dispatch('AddProducts', this.form).then(() => {
                         this.form = {};
-                        // this.open();
-                        // this.goHome();
+                        this.open();
+                        this.goHome();
                     });
 
                     return true;
+
                 }
             },
+
+            // addProduct: function () {
+            //
+            //     this.errors = [];
+            //
+            //     if (!this.form.product_name) {
+            //         this.errors.push('Product Name required.');
+            //     }
+            //     if (!this.form.product_type) {
+            //         this.errors.push('Product Type required.');
+            //     }
+            //     if (!this.form.product_desc) {
+            //         this.errors.push('Description required.');
+            //     }
+            //     if (!this.form.product_price) {
+            //         this.errors.push('Price required.');
+            //     }
+            //     if (!this.form.product_stock) {
+            //         this.errors.push('Stock required.');
+            //     }
+            //
+            //     if (this.form.product_stock && this.form.product_price && this.form.product_type && this.form.product_desc && this.form.product_name) {
+            //
+            //         this.products.push(this.form);
+            //         this.$store.dispatch('AddProducts', this.form).then(() => {
+            //             this.form = {};
+            //             // this.open();
+            //             // this.goHome();
+            //         });
+            //
+            //         return true;
+            //     }
+            // },
             open() {
 
                 this.$message({

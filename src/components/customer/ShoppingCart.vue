@@ -5,11 +5,11 @@
         <div class="items" v-else>
             <div class="item clearfix" v-for="item in getProductsInCart">
 
-                <span class="btn" @click="clr(item.item_id)" style="cursor: pointer;color: red;">x</span>&nbsp;&nbsp;
+                <span class="btn" @click="clear(item.item_id)" style="cursor: pointer;color: red;">x</span>&nbsp;&nbsp;
 
-                <span class="btn" @click="inc(item.item_id)" style="cursor: pointer;">+</span>&nbsp;&nbsp;
+                <span class="btn" @click="increaseProduct(item.item_id)" style="cursor: pointer;">+</span>&nbsp;&nbsp;
 
-                <span @click="dec(item.item_id)" class="btn" style="cursor: pointer;">-</span>&nbsp;&nbsp;
+                <span @click="decreaseProduct(item.item_id)" class="btn" style="cursor: pointer;">-</span>&nbsp;&nbsp;
 
                 <span class="item-title">{{item.item_name}}</span>
 
@@ -38,7 +38,12 @@
                 cart_count: this.$store.getters.getItemsInCart.count,
                 items: this.$store.getters.getItemsInCart,
                 Cart: [],
-                item: null
+                item: {
+                    item_name: '',
+                    item_quantity: '',
+                    item_price: '',
+                    item_id:''
+                }
             }
         },
         computed: {
@@ -58,17 +63,17 @@
         },
         methods: {
 
-            clr: function($id) {
+            clear: function($id) {
                 this.$store.dispatch('removeFromCart', $id);
             },
 
-            inc: function ($id) {
+            increaseProduct: function ($id) {
 
                 this.$store.dispatch('incrementItemQuantity', $id);
 
             },
 
-            dec: function ($id) {
+            decreaseProduct: function ($id) {
 
                 this.$store.dispatch('decrementItemQuantity', $id);
 

@@ -36,18 +36,11 @@ const store = new Vuex.Store({
                 product_stock: 10,
                 product_id: 3
             },
-            {
-                product_name: 'PLAYSTATION',
-                product_type: 'XBOX',
-                product_desc: 'XBOX LIVE',
-                product_price: '25000',
-                product_stock: 10,
-                product_id: 4
-            },
         ],
 
         Cart: [
-            {item_name: 'PS4', item_quantity: 12, item_price: 200, item_id: 1}
+            {item_name: 'PS4', item_quantity: 12, item_price: 200, item_id: 1},
+            {item_name: 'PS3', item_quantity: 10, item_price: 2000, item_id: 2}
         ]
 
     },

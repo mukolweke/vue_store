@@ -1,7 +1,8 @@
 <template>
     <div class="app">
-        <button @click="logout">Logout</button>
-        <h1>{{ msg }}</h1>
+        <navbar>
+            <slot></slot>
+        </navbar>
         <div class="error">
             <ul>
                 <li v-for="error in errors">{{ error }}</li>
@@ -11,60 +12,22 @@
             <el-col :span="18">
                 <!--using store array-->
                 <ul>
-                    <li v-for="product in getProducts">
-                        <el-col :span="10">
-                            <div class="grid-content">
-
-                                <img class="my_images" @click="productDialog = true" src="../../assets/ps4.jpg" alt="image"/>
-                                <p> {{product.product_name}} <br> {{product.product_type}} <br> KSH {{product.product_price}}</p>
-
-                                <el-button type="success" @click="addCart(product.product_id)"><i class="el-icon-check"></i> Add to Cart</el-button>
-
-
-
-
-                                <!--<el-form ref="form" :model="form" label-width="120px">-->
-                                    <!--<el-form-item label="Product name: ">-->
-                                        <!--<el-input class="inpt" type="text" v-model="form.item_name" >1</el-input>-->
-                                    <!--</el-form-item>-->
-                                    <!--<el-form-item label="Product id: ">-->
-                                        <!--<el-input class="inpt" type="number" v-model="form.item_price"></el-input>-->
-                                    <!--</el-form-item>-->
-                                    <!--<el-form-item label="Product qnty: ">-->
-                                        <!--<el-input class="inpt" type="number" v-model="form.item_quantity"></el-input>-->
-                                    <!--</el-form-item>-->
-                                    <!--<el-form-item label="Product price: ">-->
-                                        <!--<el-input class="inpt" type="number" v-model="form.item_price">{{product.product_price}}</el-input>-->
-                                    <!--</el-form-item>-->
-                                    <!--<el-form-item>-->
-                                        <!--<el-button type="success" @click="addToCart()"><i class="el-icon-check"></i> Add to Cart</el-button>-->
-                                    <!--</el-form-item>-->
-                                <!--</el-form>-->
+                    <li v-for="prod in getProducts" v-bind:key="prod.id">
+                        <el-col>
+                            <div class="grid-content" style="text-align: left;">
+                                <div><!--angular used-->
+                                    <img class="my_images disabled" @click="productDialog()"
+                                         src="../../assets/ps4.jpg" alt="image"/>
+                                    <p>Name:&nbsp;{{prod.product_name}} </p>
+                                    <p>Type:&nbsp;{{prod.product_type}} </p>
+                                    <p>Ksh:&nbsp;{{prod.product_price}} </p>
+                                    <p>Stock:&nbsp;{{prod.product_stock}}</p>
+                                    <el-button type="success" @click="addCart(prod.product_id)"><i class="el-icon-check"></i> Add to Cart</el-button>
+                                </div>
                             </div>
                         </el-col>
                     </li>
                 </ul>
-
-
-                <!--using firebase-->
-                <!--<div class="grid-content">-->
-                    <!--<ul>-->
-                        <!--<li v-for="prod in product" v-bind:key="prod['.key']">-->
-                            <!--<el-col :span="12">-->
-                                <!--<div class="grid-content" style="text-align: left;">-->
-                                    <!--<img class="my_images disabled" @click="productDialog()"-->
-                                         <!--src="../../assets/ps4.jpg" alt="image"/>-->
-                                    <!--<p> {{prod.name}} </p><p>Type:&nbsp;{{prod.type}}  </p>-->
-                                    <!--<p> KSH {{prod.price}} </p>-->
-                                    <!--<p>Stock:&nbsp;{{prod.stock}}</p>-->
-                                    <!--<el-button type="success" @click="addCart(prod.id)"><i class="el-icon-check"></i> Add to Cart</el-button>-->
-                                <!--</div>-->
-                            <!--</el-col>-->
-                        <!--</li>-->
-                    <!--</ul>-->
-                <!--</div>-->
-
-
 
             </el-col>
             <el-col :span="6">
@@ -82,6 +45,7 @@
     import shoppingCart from './ShoppingCart'
     import firebase from 'firebase/app'
     import 'firebase/auth'
+    import navbar from './Navbar'
 
     export default {
         name: 'customer',
@@ -91,9 +55,9 @@
                 product_id:null,
                 form: {
                     item_name: '',
-                    item_quantity: null,
-                    item_price: null,
-                    item_id:null
+                    item_quantity: '',
+                    item_price: '',
+                    item_id:''
                 },
                 Cart: [],
                 errors:[]
@@ -113,6 +77,7 @@
 
 
             addCart(id){
+                console.log(id);
                 this.$store.dispatch("AddToCart",id);
             },
 
@@ -124,7 +89,7 @@
 
             },
         },
-        components:{shoppingCart},
+        components:{shoppingCart, navbar},
 
         computed:{
             getProducts() {
