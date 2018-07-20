@@ -106,19 +106,24 @@
                     this.products.push(this.form);
                     this.$store.dispatch('AddProducts', this.form).then(() => {
                         this.form = {};
-                        this.open();
-                        // this.$router.push('login');
+                        // this.open();
+                        // this.goHome();
                     });
 
                     return true;
                 }
             },
             open() {
+
                 this.$message({
                     type: 'success',
                     message: 'Product added to shop.',
                 });
 
+            },
+            goHome()
+            {
+                this.$router.push({name: 'admin'});
             },
 
         }

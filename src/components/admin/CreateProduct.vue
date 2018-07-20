@@ -1,10 +1,6 @@
 <template>
     <div>
-        <button @click="logout">Logout</button>
-        <h1>Admin View</h1>
-            <router-link to="/admin">DASHBOARD</router-link>
-            <router-link to="/admin/create">CREATE</router-link>
-            <router-link to="/admin/orders">VIEW ORDERS</router-link>
+        <navbar><slot></slot></navbar>
         <!--create form-->
         <product_form><slot></slot></product_form>
     </div>
@@ -13,11 +9,12 @@
 <script>
     import product_form from './Product_form'
     import firebase from 'firebase'
+    import navbar from './Navbar'
 
 
     export default {
         name: "CreateProduct",
-        components:{product_form},
+        components:{product_form, navbar},
         methods:{
 
             logout: function () {

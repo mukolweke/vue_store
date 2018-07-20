@@ -1,11 +1,6 @@
 <template>
     <div>
-        <button @click="logout">Logout</button>
-        <h1>Admin View</h1>
-
-        <router-link to="/admin">DASHBOARD</router-link>
-        <router-link to="/admin/create">CREATE</router-link>
-        <router-link to="/admin/orders">VIEW ORDERS</router-link>
+        <navbar><slot></slot></navbar>
         <el-card class="box-card-outer">
             <hr style="width: 100px;">
             <br>
@@ -36,23 +31,6 @@
                 </ul>
             </el-row>
             <hr style="width: 100px;">
-        <!--<div>-->
-            <!--<ul>-->
-                <!--<li v-for="prod in product" v-bind:key="prod['.key']">-->
-                    <!--<div v-if="!prod.edit">&lt;!&ndash;angular used&ndash;&gt;-->
-                        <!--<p> {{prod.name}} {{prod.price}}</p>-->
-                        <!--<button @click="removeProduct(prod['.key'])">Remove</button>-->
-                        <!--<button @click="setEditProduct(prod['.key'])">Edit</button>-->
-                    <!--</div>-->
-                    <!--<div v-else>-->
-                        <!--<input type="text" v-model="prod.name"/>-->
-                        <!--<input type="text" v-model="prod.price"/>-->
-                        <!--<button @click="saveEdit(prod)">save</button>-->
-                        <!--<button @click="cancelEdit(prod['.key'])">cancel </button>-->
-                    <!--</div>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</div>-->
 
         </el-card>
 
@@ -107,10 +85,11 @@
     import {db} from '../../firebase.conf'
     import firebase from 'firebase/app'
     import 'firebase/auth'
+    import navbar from './Navbar'
 
     export default {
         name: "AdminIndex",
-        components: {product_form},
+        components: {product_form, navbar},
         data() {
             return {
                 input: '',
@@ -145,13 +124,6 @@
 
         },
         methods: {
-
-            logout: function () {
-
-                firebase.auth().signOut().then(() => {
-                    this.$router.replace('login')
-                })
-            },
 
             removeProduct: function(key){
                 this.$firebaseRefs.product.child(key).remove();

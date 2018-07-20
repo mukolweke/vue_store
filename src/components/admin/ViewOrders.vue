@@ -1,16 +1,15 @@
 <template>
     <div>
-        <button @click="logout">Logout</button>
-        <h1>Admin View</h1>
-            <router-link to="/admin">DASHBOARD</router-link>
-            <router-link to="/admin/create">CREATE</router-link>
-            <router-link to="/admin/orders">VIEW ORDERS</router-link>
-
+        <navbar>
+            <slot></slot>
+        </navbar>
+        <h1>Orders listed</h1>
     </div>
 </template>
 
 <script>
     import firebase from 'firebase/app'
+    import navbar from './Navbar'
 
     export default {
         name: "ViewOrders",
@@ -22,7 +21,8 @@
                     this.$router.replace('login')
                 })
             },
-        }
+        },
+        components:{navbar}
     }
 </script>
 
