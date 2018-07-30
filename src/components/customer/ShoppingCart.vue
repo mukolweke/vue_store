@@ -3,20 +3,19 @@
         <p class="cart-title">Shopping Cart</p>
         <p class="cart-empty" v-if="cart_count <= 0">Your Shopping Cart is Empty!</p>
         <div class="items" v-else>
-            <div class="item clearfix" v-for="item in getProductsInCart">
+            <div class="item clearfix" v-for="item,index in getProductsInCart">
 
-                <span class="btn" @click="clear(item.item_id)" style="cursor: pointer;color: red;">x</span>&nbsp;&nbsp;
+                <span class="btn" @click="clear(item)" style="cursor: pointer;color: red;"><el-tag type="danger">X</el-tag></span>&nbsp;&nbsp;
 
-                <span class="btn" @click="increaseProduct(item.item_id)" style="cursor: pointer;">+</span>&nbsp;&nbsp;
+                <span class="btn" @click="increaseProduct(item)" style="cursor: pointer;"><el-tag type="sucess">+</el-tag></span>&nbsp;&nbsp;
 
-                <span @click="decreaseProduct(item.item_id)" class="btn" style="cursor: pointer;">-</span>&nbsp;&nbsp;
+                <span @click="decreaseProduct(item)" class="btn" style="cursor: pointer;"><el-tag type="info">-</el-tag></span>&nbsp;&nbsp;
 
-                <span class="item-title">{{item.item_name}}</span>
+                <span class="item-title">{{item.product_name}}</span>
 
-                <!--<span class="item-price">-->
-                    <span style="margin-left: 40px;">x&nbsp;{{(item.item_quantity)}}</span>&nbsp;
-                    <span class="right">$ {{Number(item.item_quantity) * Number(item.item_price)}}</span>
-                <!--</span>-->
+                <span style="margin-left: 40px;">x&nbsp;{{item.item_quantity}}</span>&nbsp;
+
+                <span class="right">$ {{Number(item.item_quantity) * Number(item.product_price)}}</span>
             </div>
         </div>
         <div class="cart-total">
@@ -42,18 +41,14 @@
                     item_name: '',
                     item_quantity: '',
                     item_price: '',
-                    item_id:''
+                    item_id: ''
                 }
             }
         },
         computed: {
             total() {
-
-                return _.sumBy(this.items, function (item) {
-
-                    return (Number(item.item_price) * Number(item.item_quantity))
-
-                })
+                // reduce function
+               return this.$store.getters.getItemsInCart.reduce((ac, cartItem)=>Number(ac)+Number((cartItem.item_quantity*cartItem.product_price)),0);
 
             },
 
@@ -63,12 +58,13 @@
         },
         methods: {
 
-            clear: function($id) {
+            clear: function ($id) {
+                console.log('view: '+$id);
+
                 this.$store.dispatch('removeFromCart', $id);
             },
 
             increaseProduct: function ($id) {
-
                 this.$store.dispatch('incrementItemQuantity', $id);
 
             },
@@ -108,10 +104,7 @@
             },
 
         },
-        mounted: {
-
-
-        }
+        mounted: {}
 
     }
 </script>
@@ -120,13 +113,14 @@
         margin-left: 1em;
     }
 
-    .checkout{
+    .checkout {
         background: limegreen;
         cursor: pointer;
         padding: 5px;
         color: white;
         border-radius: 2px;
     }
+
     .cart-title {
         margin: 0.5em 0 0 0;
         font-weight: bold;

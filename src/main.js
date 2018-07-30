@@ -28,6 +28,7 @@ firebase.auth().onAuthStateChanged(function (user) {
             el: '#app',
             router,
             Axios,
+            ElementUI,
             vuexaxi,
             store,
             components: {App},

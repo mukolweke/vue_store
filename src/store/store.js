@@ -10,7 +10,7 @@ const store = new Vuex.Store({
         useremail: '',
         userphone: '',
         password: '',
-        users: [{username: 'admin', useremail: 'admin@admin.com', userphone: '123456789', password: 'admin'}],
+        users: [],
         products: [
             {
                 product_name: 'PLAYSTATION',
@@ -37,11 +37,9 @@ const store = new Vuex.Store({
                 product_id: 3
             },
         ],
+        total:0,
 
-        Cart: [
-            {item_name: 'PS4', item_quantity: 12, item_price: 200, item_id: 1},
-            {item_name: 'PS3', item_quantity: 10, item_price: 2000, item_id: 2}
-        ]
+        Cart: []
 
     },
 
@@ -52,10 +50,12 @@ const store = new Vuex.Store({
         },
 
         ADD_PRODUCT(state, newProduct) {
+            //
             state.products.push(newProduct);
         },
 
         ADD_CART(state, addCartItem) {
+            addCartItem.item_quantity=1;
             state.Cart.push(addCartItem);
         },
 
@@ -74,19 +74,27 @@ const store = new Vuex.Store({
         },
 
 
-        INC_ITEM_CART(state, id) {
-            const cartItem = state.Cart.find(item => item.item_id === id)
-            const productItem = state.products.find(product => product.product_id === id)
-            if (cartItem.item_quantity < productItem.product_stock) {
-                cartItem.item_quantity++
-            }
+        INC_ITEM_CART(state, product) {
+
+             let productInstore=  state.products.find(item => item.product_id === product.product_id);
+
+             let productinCart= state.Cart.find(item => item.product_id === product.product_id);
+
+                if (productinCart.item_quantity < productInstore.product_stock) {
+                    state.Cart=
+                        state.Cart.map(cartItem => cartItem.product_id === product.product_id? {...cartItem, item_quantity : Number(cartItem.item_quantity||0)+1} : cartItem);
+                }
+
         },
 
-        DEC_ITEM_CART(state, id) {
-            const cartItem = state.Cart.find(item => item.item_id === id)
-            const productItem = state.products.find(product => product.product_id === id)
-            if (cartItem.item_quantity > 0) {
-                cartItem.item_quantity--
+        DEC_ITEM_CART(state, product) {
+            let productInstore=  state.products.find(item => item.product_id === product.product_id);
+
+            let productinCart= state.Cart.find(item => item.product_id === product.product_id);
+
+            if (productinCart.item_quantity > 0) {
+                state.Cart=
+                    state.Cart.map(cartItem => cartItem.product_id === product.product_id? {...cartItem, item_quantity : Number(cartItem.item_quantity)-1} : cartItem);
             }
         },
 
@@ -97,6 +105,7 @@ const store = new Vuex.Store({
 
         CLEAR_CART(state){
             state.Cart = [];
+            state.total = 0;
         }
 
     },

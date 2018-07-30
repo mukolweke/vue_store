@@ -12,7 +12,7 @@
             <el-col :span="18">
                 <!--using store array-->
                 <ul>
-                    <li v-for="prod in getProducts" v-bind:key="prod.id">
+                    <li v-for="prod,index in getProducts" v-bind:key="prod.id">
                         <el-col>
                             <div class="grid-content" style="text-align: left;">
                                 <div><!--angular used-->
@@ -22,7 +22,7 @@
                                     <p>Type:&nbsp;{{prod.product_type}} </p>
                                     <p>Ksh:&nbsp;{{prod.product_price}} </p>
                                     <p>Stock:&nbsp;{{prod.product_stock}}</p>
-                                    <el-button type="success" @click="addCart(prod.product_id)"><i class="el-icon-check"></i> Add to Cart</el-button>
+                                    <el-button type="success" @click="addCart(prod)"><i class="el-icon-check"></i> Add to Cart</el-button>
                                 </div>
                             </div>
                         </el-col>
@@ -53,12 +53,6 @@
             return {
                 msg:'User View',
                 product_id:null,
-                form: {
-                    item_name: '',
-                    item_quantity: '',
-                    item_price: '',
-                    item_id:''
-                },
                 Cart: [],
                 errors:[]
             }
@@ -76,9 +70,9 @@
             },
 
 
-            addCart(id){
-                console.log(id);
-                this.$store.dispatch("AddToCart",id);
+            addCart(product){
+                console.log(product);
+                this.$store.dispatch("AddToCart",product);
             },
 
             open() {
