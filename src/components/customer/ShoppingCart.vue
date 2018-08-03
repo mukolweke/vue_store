@@ -1,173 +1,181 @@
 <template>
-    <div class="cart">
-        <p class="cart-title">Shopping Cart</p>
-        <p class="cart-empty" v-if="cart_count <= 0">Your Shopping Cart is Empty!</p>
-        <div class="items" v-else>
-            <div class="item clearfix" v-for="item,index in getProductsInCart">
+    <div class="container">
+        <table id="cart" class="table table-hover table-condensed">
+            <thead>
+            <tr>
+                <th style="width:50%">Product</th>
+                <th style="width:10%">Price</th>
+                <th style="width:8%">Quantity</th>
+                <th style="width:22%" class="text-center">Subtotal</th>
+                <th style="width:10%"></th>
+            </tr>
+            </thead>
 
-                <span class="btn" @click="clear(item)" style="cursor: pointer;color: red;"><el-tag type="danger">X</el-tag></span>&nbsp;&nbsp;
+            <transition-group name="list-shopping-cart" tag="tbody">
+                <app-cart-item v-for="cartItem in cartItemList" :cartItem="cartItem" :key="cartItem.id"></app-cart-item>
+            </transition-group>
 
-                <span class="btn" @click="increaseProduct(item)" style="cursor: pointer;"><el-tag type="sucess">+</el-tag></span>&nbsp;&nbsp;
-
-                <span @click="decreaseProduct(item)" class="btn" style="cursor: pointer;"><el-tag type="info">-</el-tag></span>&nbsp;&nbsp;
-
-                <span class="item-title">{{item.product_name}}</span>
-
-                <span style="margin-left: 40px;">x&nbsp;{{item.item_quantity}}</span>&nbsp;
-
-                <span class="right">$ {{Number(item.item_quantity) * Number(item.product_price)}}</span>
-            </div>
-        </div>
-        <div class="cart-total">
-            <span>Total</span>
-            <span class="right">$ {{total}}</span>
-        </div>
-        <div class="cart-total">
-            <a class="checkout" @click="checkout">CHECKOUT</a>
-        </div>
+            <tfoot>
+            <tr class="visible-xs">
+                <td class="text-center"><strong>Total {{ totalValue }}</strong></td>
+            </tr>
+            <tr>
+                <td>
+                    <button class="btn btn-warning" @click="saveShoppingCartLocal">
+                        <i class="fa fa-angle-left"></i>Continue Shopping
+                    </button>
+                </td>
+                <td colspan="2" class="hidden-xs"></td>
+                <td class="hidden-xs text-center"><strong>Total ${{ totalValue }}</strong></td>
+                <td>
+                    <button class="btn btn-success btn-block" @click="checkout">
+                        Checkout <i class="fa fa-angle-right"></i>
+                    </button>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
     </div>
 </template>
+
 <script>
-    import _ from 'lodash'
+    import {
+        mapActions,
+        mapGetters
+    } from 'vuex';
+    import CartItem from './CartItem.vue';
 
     export default {
-        data() {
-            return {
-
-                cart_count: this.$store.getters.getItemsInCart.count,
-                items: this.$store.getters.getItemsInCart,
-                Cart: [],
-                item: {
-                    item_name: '',
-                    item_quantity: '',
-                    item_price: '',
-                    item_id: ''
-                }
-            }
-        },
         computed: {
-            total() {
-                // reduce function
-               return this.$store.getters.getItemsInCart.reduce((ac, cartItem)=>Number(ac)+Number((cartItem.item_quantity*cartItem.product_price)),0);
+            ...mapGetters(['cartItemList', 'isLoggedIn', 'products', 'currentUser']),
 
-            },
-
-            getProductsInCart() {
-                return (this.$store.getters.getItemsInCart);
+            totalValue() {
+                let res = 0;
+                this.cartItemList.map(item => {
+                    res += item.product_price * item.quantity;
+                });
+                return res;
             }
+
         },
+
+        components: {
+
+            appCartItem: CartItem
+
+        },
+
         methods: {
 
-            clear: function ($id) {
-                console.log('view: '+$id);
+            ...mapActions(['saveShoppingCart', 'addMessage', 'saveToTransaction', 'clearCart']),
+            checkValidCart(itemList, prodList) {
+                let isValid = true;
+                let message = "";
 
-                this.$store.dispatch('removeFromCart', $id);
+                itemList.map(item => {
+                    for (let prodIdx = 0; prodIdx < prodList.length; prodIdx++) {
+                        if (prodList[prodIdx].product_id === item.id) {
+                            if (prodList[prodIdx].product_stock < item.quantity) {
+                                message = `Only ${prodList[prodIdx].product_stock} ${item.product_name} available in stock`;
+                                isValid = false;
+                                return;
+                            }
+                            break;
+                        }
+                    }
+                });
+                return {
+                    isValid,
+                    message
+                }
             },
 
-            increaseProduct: function ($id) {
-                this.$store.dispatch('incrementItemQuantity', $id);
+            saveShoppingCartLocal() {
 
-            },
+                if (this.isLoggedIn) {
+                    let {
+                        isValid,
+                        message
+                    } = this.checkValidCart(this.cartItemList, this.products);
 
-            decreaseProduct: function ($id) {
-
-                this.$store.dispatch('decrementItemQuantity', $id);
-
-            },
-
-            cart: function () {
-
-                return this.$store.getters.getItemsInCart.map((cartItem) => {
-
-                    return this.$store.getters.getProducts.find((forSaleItem) => {
-
-                        return cartItem === forSaleItem.invId;
-
+                    if (isValid) {
+                        this.saveShoppingCart({
+                            cartItemList: this.cartItemList,
+                            uid: this.currentUser.uid
+                        }).then(() => {
+                            this.addMessage({
+                                messageClass: 'success',
+                                message: 'Your shopping cart is saved successfully'
+                            });
+                            this.$router.push('/');
+                        });
+                    } else {
+                        this.addMessage({
+                            messageClass: 'danger',
+                            message: message
+                        });
+                    }
+                } else {
+                    this.addMessage({
+                        messageClass: 'warning',
+                        message: 'Please login to save your cart'
                     });
-
-                });
+                }
             },
+            checkout() {
+                if (this.isLoggedIn) {
+                    if (!this.cartItemList || this.cartItemList.length === 0) {
+                        this.addMessage({
+                            messageClass: 'warning',
+                            message: 'Your cart is empty!'
+                        });
+                        return;
+                    }
+                    let {
+                        isValid,
+                        message
+                    } = this.checkValidCart(this.cartItemList, this.products);
 
-            checkout: function () {
-
-                this.$store.dispatch('clearCart');
-                this.open();
-
-            },
-
-            open() {
-                this.$message({
-                    type: 'success',
-                    message: 'Checkout; Till next time',
-                });
-
-            },
-
-        },
-        mounted: {}
-
+                    if (isValid) {
+                        this.saveToTransaction({
+                            cartItemList: this.cartItemList,
+                            uid: this.currentUser.uid
+                        }).then(() => {
+                            this.addMessage({
+                                messageClass: 'success',
+                                message: 'Your order has been successfully processed!'
+                            });
+                            this.saveShoppingCart({
+                                cartItemList: [],
+                                uid: this.currentUser.uid
+                            });
+                            this.clearCart();
+                            this.$router.push('/');
+                        });
+                    } else {
+                        this.addMessage({
+                            messageClass: 'danger',
+                            message: message
+                        });
+                    }
+                } else {
+                    this.addMessage({
+                        messageClass: 'warning',
+                        message: 'Please login to checkout'
+                    });
+                }
+            }
+        }
     }
 </script>
-<style>
-    .cart {
-        margin-left: 1em;
+
+<style scoped>
+    .list-shopping-cart-leave-active {
+        transition: all 0.4s;
     }
 
-    .checkout {
-        background: limegreen;
-        cursor: pointer;
-        padding: 5px;
-        color: white;
-        border-radius: 2px;
-    }
-
-    .cart-title {
-        margin: 0.5em 0 0 0;
-        font-weight: bold;
-        text-transform: uppercase;
-        text-align: center;
-        padding: 0.75em;
-        background: #35495E;
-        color: #fff;
-    }
-
-    .cart-empty {
-        text-align: center;
-        margin: 4em 0 0 0;
-        min-height: 300px;
-    }
-
-    .cart-total {
-        background: #F1F1F1;
-        margin: 0;
-        padding: 0.75em;
-    }
-
-    .items {
-        min-height: 300px;
-    }
-
-    .item {
-        padding: 0.75em 0.75em;
-        border-top: 1px solid #ddd;
-    }
-
-    .right {
-        float: right;
-    }
-
-    .item-details {
-        width: 100%;
-        padding-left: 0.75em;
-    }
-
-    .item-title {
-        margin: 0;
-        font-weight: bold;
-    }
-
-    .item-price {
-        margin: 0;
-        font-size: 0.9em;
+    .list-shopping-cart-leave-to {
+        opacity: 0;
+        transform: translateX(50px);
     }
 </style>

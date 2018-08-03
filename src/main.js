@@ -9,7 +9,7 @@ import store from './store/store'
 import vuexaxi from 'vue-axios'
 import ElementUI from 'element-ui'
 import VueFire from 'vuefire'
-import firebase from './firebase.conf'
+import {firebaseListener} from './firebase.conf'
 import locale from 'element-ui/lib/locale/lang/en';
 import 'element-ui/lib/theme-chalk/index.css';
 
@@ -19,20 +19,29 @@ Vue.use(Vuex);
 Vue.use(VueFire);
 Vue.config.productionTip = false
 
+
+firebaseListener(authStatusChange);
+
 /* eslint-disable no-new */
 let app;
 
-firebase.auth().onAuthStateChanged(function (user) {
-    if(!app) {
-        app =  new Vue({
-            el: '#app',
-            router,
-            Axios,
-            ElementUI,
-            vuexaxi,
-            store,
-            components: {App},
-            template: '<App/>'
-        })
-    }
+new Vue({
+    el: '#app',
+    router,
+    Axios,
+    ElementUI,
+    vuexaxi,
+    store,
+    components: {App},
+    template: '<App/>'
 })
+
+function authStatusChange(loggedIn, user) {
+    if (store) {
+        store.commit('AUTH_STATUS_CHANGE');
+        if (user) {
+            store.dispatch('getShoppingCart', {uid: user.uid, currentCart: store.getters.cartItemList});
+        }
+    }
+
+}

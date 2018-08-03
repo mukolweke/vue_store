@@ -54,7 +54,7 @@
 
 <script>
     import product_form from './Product_form'
-    import {db} from '../../firebase.conf'
+    import {ref} from '../../firebase.conf'
     import firebase from 'firebase/app'
     import 'firebase/auth'
     import navbar from './Navbar'
@@ -87,11 +87,34 @@
                     label: '6'
                 }],
                 value4: '',
-                products: []
+                products: [{
+                    product_name: 'PLAYSTATION',
+                    product_type: 'PS2',
+                    product_desc: '2ND HAND, CHIPPED',
+                    product_price: '9000',
+                    product_stock: 20,
+                    product_id: 1
+                },
+                    {
+                        product_name: 'GAMES',
+                        product_type: 'NBA 2K19',
+                        product_desc: 'SEALED',
+                        product_price: '6500',
+                        product_stock: 10,
+                        product_id: 2
+                    },
+                    {
+                        product_name: 'GAME PADS',
+                        product_type: 'PS2',
+                        product_desc: 'Original',
+                        product_price: '500',
+                        product_stock: 10,
+                        product_id: 3
+                    },],
             }
         },
         firebase :{
-            product: db.ref('product')
+            // product: ref.ref('product')
         },
         computed: {
 

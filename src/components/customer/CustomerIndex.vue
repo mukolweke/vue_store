@@ -1,150 +1,82 @@
 <template>
-    <div class="app">
-        <navbar>
-            <slot></slot>
-        </navbar>
-        <div class="error">
-            <ul>
-                <li v-for="error in errors">{{ error }}</li>
-            </ul>
+    <div class="container" :class="{loadingItem: isProductLoading}">
+        <div class="is-flex" v-if="!isProductLoading">
+            <app-product-item v-for="prod in products" :item="prod" :key="prod.id" :displayList="displayList"></app-product-item>
         </div>
-        <el-row>
-            <el-col :span="18">
-                <!--using store array-->
-                <ul>
-                    <li v-for="prod,index in getProducts" v-bind:key="prod.id">
-                        <el-col>
-                            <div class="grid-content" style="text-align: left;">
-                                <div><!--angular used-->
-                                    <img class="my_images disabled" @click="productDialog()"
-                                         src="../../assets/ps4.jpg" alt="image"/>
-                                    <p>Name:&nbsp;{{prod.product_name}} </p>
-                                    <p>Type:&nbsp;{{prod.product_type}} </p>
-                                    <p>Ksh:&nbsp;{{prod.product_price}} </p>
-                                    <p>Stock:&nbsp;{{prod.product_stock}}</p>
-                                    <el-button type="success" @click="addCart(prod)"><i class="el-icon-check"></i> Add to Cart</el-button>
-                                </div>
-                            </div>
-                        </el-col>
-                    </li>
-                </ul>
-
-            </el-col>
-            <el-col :span="6">
-                <div class="shopping-cart">
-                    <shoppingCart></shoppingCart>
-                </div>
-            </el-col>
-        </el-row>
 
     </div>
 </template>
 
 <script>
-    import {db} from '../../firebase.conf'
-    import shoppingCart from './ShoppingCart'
-    import firebase from 'firebase/app'
-    import 'firebase/auth'
-    import navbar from './Navbar'
+    import { mapGetters } from 'vuex'
+    import ProductItem from './ProductItem.vue';
 
     export default {
-        name: 'customer',
+
         data() {
             return {
-                msg:'User View',
-                product_id:null,
-                Cart: [],
-                errors:[]
+                displayList: false,
+                products: [
+                    {
+                    product_name: 'PLAYSTATION',
+                    product_type: 'PS2',
+                    product_desc: '2ND HAND, CHIPPED',
+                    product_price: '9000',
+                    product_stock: 20,
+                    product_id: 1
+                    },
+                    {
+                        product_name: 'GAMES',
+                        product_type: 'NBA 2K19',
+                        product_desc: 'SEALED',
+                        product_price: '6500',
+                        product_stock: 10,
+                        product_id: 2
+                    },
+                    {
+                        product_name: 'GAME PADS',
+                        product_type: 'PS2',
+                        product_desc: 'Original',
+                        product_price: '500',
+                        product_stock: 10,
+                        product_id: 3
+                    },],
             }
         },
-        firebase :{
-            product: db.ref('product')
+        computed: {
+            ...mapGetters(['isProductLoading']),
+        },
+        components: {
+            appProductItem: ProductItem,
+
         },
         methods: {
-
-            logout: function () {
-
-                firebase.auth().signOut().then(() => {
-                    this.$router.replace('login')
-                })
-            },
-
-
-            addCart(product){
-                console.log(product);
-                this.$store.dispatch("AddToCart",product);
-            },
-
-            open() {
-                this.$message({
-                    type: 'success',
-                    message: 'Cart added',
-                });
-
-            },
-        },
-        components:{shoppingCart, navbar},
-
-        computed:{
-            getProducts() {
-                return (this.$store.getters.getProducts);
+            changeDisplay(isList) {
+                this.displayList = isList;
             }
-        },
+        }
     }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-    .app{
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        color: #2c3e50;
-
+    .is-flex {
+        display: flex;
+        flex-wrap: wrap;
     }
 
-    .grid-content {
-        border-radius: 4px;
-        min-height: 36px;
+    .loadingItem {
+        align-items: center;
+        justify-content: center;
+        display: flex;
     }
 
-    .my_images {
-        width: 200px;
-        height: 200px;
-        cursor: pointer;
+    .is-flex>[class*='col-'] {
+        display: flex;
+        flex-direction: column;
     }
 
-    ul li {
-        list-style: none;
-        display: inline-flex;
-        margin-left: 20px;
-    }
-
-    .inpt{
-        width: 300px;
-    }
-    .error {
-        background: #F56C6C;
-        border-radius: 5px;
-    }
-
-    h1, h2 {
-        font-weight: normal;
-        text-align: center;
-    }
-
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    li {
-        display: inline-block;
-        margin: 0 10px;
-    }
-
-    a {
-        color: #42b983;
+    .action-panel {
+        margin-bottom: 10px;
+        margin-right: 5px;
     }
 </style>
