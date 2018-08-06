@@ -2,24 +2,9 @@
     <div>
         <div class="login">
             <img src="../../assets/Chicken.png" alt="" class="img_logo"/>
-            <h3 class="text-center">Sign In</h3>
-            <div class="form_panel">
-                <el-input
-                        type="email"
-                        placeholder="Email"
-                        v-model="email"
-                        clearable>
-                </el-input>
-                <br/><br/>
-                <el-input
-                        type="password"
-                        placeholder="Password"
-                        v-model="password"
-                        clearable>
-                </el-input>
-                <el-button @click="login" type="success" class="medium">LogIn&nbsp;<i class="fa fa-sign-in"></i></el-button>
-
-            </div>
+            <h1 class="text-center">Welcome to Kuku Game Store</h1>
+            <h4 class="text-center" v-if="!isLoggedIn"> Please Login to do shop ...</h4>
+            <h4 class="text-center" v-if="isLoggedIn"> Go to <router-link to="/dashboard">Dashboard</router-link> to shop...</h4>
         </div>
     </div>
 </template>
@@ -27,6 +12,9 @@
 <script>
     import firebase from 'firebase/app'
     import 'firebase/auth'
+    import {
+        mapActions, mapGetters
+    } from 'vuex';
 
     export default {
         name: "Login",
@@ -47,7 +35,7 @@
                         if (this.email === "michaelolukaka@gmail.com") {
                             this.$router.replace('admin')
                         } else {
-                            this.$router.push('/dashboard')
+                            this.$router.replace('customer')
                         }
                     },
 
@@ -58,44 +46,31 @@
 
             }
 
-        }
+        },
+
+        computed: {
+            ...mapGetters(['isLoggedIn']),
+
+            userEmail() {
+                return this.isLoggedIn ? this.currentUser.email : ''
+            }
+        },
 
     }
 </script>
 
 <style scoped>
     .img_logo{
-        width: 100px;
-        height: 100px;
-        margin-left: 510px;
+        width: 300px;
+        height: 300px;
+        margin-left: 400px;
     }
     .login {
         margin: 100px auto;
     }
 
-    .form_panel {
-        margin: 0 auto;
-        width: 400px;
-    }
-
-    .medium{
-        width: 400px;
-    }
-
     p{
         font-size: 2em;
-    }
-    input {
-        margin: 10px 0;
-        width: 20%;
-        padding: 15px;
-    }
-
-    button {
-        margin-top: 20px;
-        width: 25%;
-        height: 25%;
-        cursor: pointer;
     }
 
     p {

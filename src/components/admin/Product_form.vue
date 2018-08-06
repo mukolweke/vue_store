@@ -42,7 +42,7 @@
 </template>
 
 <script>
-    import {db} from '../../firebase.conf'
+    import {ref} from '../../firebase.conf'
 
     let vm = this;
     export default {
@@ -57,11 +57,12 @@
                     product_stock: 0,
                 },
                 products: [],
-                errors: []
+                errors: [],
+                product:''
             }
         },
         firebase :{
-            product: db.ref('product')
+            // product: ref.ref('product')
         },
         methods: {
 
@@ -106,39 +107,7 @@
 
                 }
             },
-
-            // addProduct: function () {
-            //
-            //     this.errors = [];
-            //
-            //     if (!this.form.product_name) {
-            //         this.errors.push('Product Name required.');
-            //     }
-            //     if (!this.form.product_type) {
-            //         this.errors.push('Product Type required.');
-            //     }
-            //     if (!this.form.product_desc) {
-            //         this.errors.push('Description required.');
-            //     }
-            //     if (!this.form.product_price) {
-            //         this.errors.push('Price required.');
-            //     }
-            //     if (!this.form.product_stock) {
-            //         this.errors.push('Stock required.');
-            //     }
-            //
-            //     if (this.form.product_stock && this.form.product_price && this.form.product_type && this.form.product_desc && this.form.product_name) {
-            //
-            //         this.products.push(this.form);
-            //         this.$store.dispatch('AddProducts', this.form).then(() => {
-            //             this.form = {};
-            //             // this.open();
-            //             // this.goHome();
-            //         });
-            //
-            //         return true;
-            //     }
-            // },
+            
             open() {
 
                 this.$message({

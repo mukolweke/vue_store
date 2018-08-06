@@ -1,11 +1,23 @@
 <template>
     <div class="signUp">
-        <h3>Sign Up</h3>
-        <p>Create Account Up Here</p>
-        <input type="email" v-model="email" placeholder="Email"/><br>
-        <input type="password" v-model="password" placeholder="Password"/><br>
-        <button @click="signUp">Sign Up</button>
-        <span>or go back to <router-link to="/login">Login</router-link></span>
+        <img src="../../assets/Chicken.png" alt="" class="img_logo"/>
+        <h3 class="text-center">Sign Up</h3>
+        <div class="form_panel">
+            <el-input
+                    type="email"
+                    placeholder="Email"
+                    v-model="email"
+                    clearable>
+            </el-input>
+            <br/><br/>
+            <el-input
+                    type="password"
+                    placeholder="Password"
+                    v-model="password"
+                    clearable>
+            </el-input>
+            <el-button @click="signUp" type="success" class="medium">Sign Up&nbsp;<i class="fa fa-sign-out"></i></el-button>
+        </div>
     </div>
 </template>
 
@@ -45,9 +57,28 @@
 </script>
 
 <style scoped>
-    .signUp{
-        margin-top: 40px;
+    .img_logo{
+        width: 100px;
+        height: 100px;
+        margin-left: 510px;
     }
+
+    body{
+        font-size: 5em;
+    }
+    .signUp{
+        margin: 100px auto;
+    }
+
+    .form_panel {
+        margin: 0 auto;
+        width: 400px;
+    }
+
+    .medium{
+        width: 400px;
+    }
+
     input{
         margin: 10px 0;
         width: 20%;

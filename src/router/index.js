@@ -6,26 +6,35 @@ import CreateProduct from '@/components/admin/CreateProduct'
 import Login from '@/components/auth/Login'
 import Signup from '@/components/auth/Signup'
 import firebase from 'firebase'
+import ShoppingCart from '@/components/customer/ShoppingCart'
+import ProductDetails from '@/components/customer/ProductDetails';
+import WelcomeDash from '@/components/auth/WelcomeDash'
+
+
 
 Vue.use(Router)
 
-let router =  new Router({
+let router = new Router({
+
     routes: [
         // any path not existing sent to login
-        {
-            path: '*',
-            redirect: '/login'
-        },
+        {path: '*', redirect: '/'},
 
         {
             path: '/',
-            component: Login
+            component: WelcomeDash
         },
 
         {
             path: '/login',
             name: 'Login',
             component: Login
+        },
+
+        {
+            path: '/dashboard',
+            name: 'Dashboard',
+            component: CustomerIndex
         },
 
         {
@@ -39,8 +48,7 @@ let router =  new Router({
             path: '/customer',
             name: 'customer',
             component: CustomerIndex,
-            // help verify user login
-            meta:{
+            meta: {
                 requiresAuth: true
             }
 
@@ -50,8 +58,7 @@ let router =  new Router({
             path: '/admin',
             name: 'admin',
             component: AdminIndex,
-            // help verify user login
-            meta:{
+            meta: {
                 requiresAuth: true
             }
 
@@ -61,26 +68,29 @@ let router =  new Router({
             path: '/admin/create',
             name: 'admin-create',
             component: CreateProduct,
-            // help verify user login
-            meta:{
+            meta: {
                 requiresAuth: true
             }
 
         },
 
+        {
+            path: '/cart',
+            component: ShoppingCart,
+            name: 'shoppingcart',
+            meta: {
+                requiresAuth: true
+            }
+
+        },
+
+        {
+            path: '/product/:id',
+            component: ProductDetails,
+            name: 'product'},
+
+
     ]
-})
-
-//check if user is logged in; guard used
-router.beforeEach((to,from,next)=>{
-    //get current user
-    let currentUser= firebase.auth().currentUser;
-    let requiresAuth= to.matched.some(record=>record.meta.requiresAuth);
-
-    if(requiresAuth && !currentUser) next('login')
-    else if(!requiresAuth && currentUser) next('customer')
-    else next();
-
 })
 
 export default router;
