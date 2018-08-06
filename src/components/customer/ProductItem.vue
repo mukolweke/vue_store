@@ -17,8 +17,7 @@
 
                 <p class="pull-right">
 
-                    <button class="btn btn-success" :disabled="item.product_stock === 0" @click="addItem"> Add to cart
-                    </button>
+                    <button class="btn btn-success" :disabled="item.product_stock === 0" @click="addItem"> Add to cart </button>
 
                 </p>
 
@@ -40,18 +39,19 @@
             ...mapActions(['updateCart']),
 
             addItem() {
-                const order = {
-                    item: Object.assign({}, this.item),
-                    quantity: 1,
-                    isAdd: true
-                };
+
+                let order = {...this.item,product_quantity:1, isAdd: true}
+
                 this.updateCart(order);
             }
         },
 
         filters: {
+
             shortDescription(value) {
+
                 if (value && value.length > 100) {
+
                     return value.substring(0, 100) + '...';
                 } else {
                     return value;

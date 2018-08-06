@@ -4,7 +4,10 @@
             <div class="navbar-header">
                 <ul class="nav navbar-nav navbar-left">
                     <li><img src="../../assets/Chicken.png" class="logo_img" alt=""></li>
-                    <li>
+                    <li v-if="isLoggedIn">
+                        <router-link to="/dashboard" class="navbar-brand">Kuku Gamers Store</router-link>
+                    </li>
+                    <li v-if="!isLoggedIn">
                         <router-link to="/" class="navbar-brand">Kuku Gamers Store</router-link>
                     </li>
                 </ul>
@@ -34,21 +37,35 @@
     import {
         mapActions, mapGetters
     } from 'vuex';
+
     export default {
         computed: {
             ...mapGetters(['isLoggedIn', 'cartValue', 'currentUser', 'cartItemList']),
+
             numItems() {
                 return this.cartItemList.reduce((total, item) => {
-                    total += item.quantity;
+
+                    total += item.product_quantity;
+
                     return total
                 }, 0);
             },
             userEmail() {
+
                 return this.isLoggedIn ? this.currentUser.email : ''
             }
         },
         methods: {
-            ...mapActions(['logout'])
+
+            logout: function () {
+                let vm = this;
+
+                this.$store.dispatch("logout").then(() => {
+
+                    vm.$router.push("/")
+                })
+
+            }
         }
     }
 </script>

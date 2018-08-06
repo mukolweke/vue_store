@@ -14,7 +14,7 @@
 		<td data-th="Price">{{ cartItem.product_price }}</td>
 		<td data-th="Quantity">
 			<input type="number" class="form-control text-center" 
-				:value="cartItem.quantity" 
+				:value="cartItem.product_quantity"
 
 				@input="updateQuantity"
 				min="0">
@@ -32,23 +32,33 @@
 	export default {
 		props: ['cartItem'],
 		computed: {
+
 			subtotal() {
-				return this.cartItem.quantity * this.cartItem.product_price;
+				return this.cartItem.product_quantity * this.cartItem.product_price;
 			},
+
 		},
 		methods: {
 			...mapActions(['updateCart', 'removeItemInCart']),
+
 			removeItem() {
 				let vm = this;
 				this.removeItemInCart({
+
 					item: vm.cartItem
+
 				});
 			},
+
 			updateQuantity(event) {
 				let vm = this;
+
 				this.updateCart({
+
 					item: vm.cartItem,
+
 					quantity: parseInt(event.target.value),
+
 					isAdd: false
 				});
 			}

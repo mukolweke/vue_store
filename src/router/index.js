@@ -8,25 +8,33 @@ import Signup from '@/components/auth/Signup'
 import firebase from 'firebase'
 import ShoppingCart from '@/components/customer/ShoppingCart'
 import ProductDetails from '@/components/customer/ProductDetails';
+import WelcomeDash from '@/components/auth/WelcomeDash'
 
 
 
 Vue.use(Router)
 
 let router = new Router({
+
     routes: [
         // any path not existing sent to login
         {path: '*', redirect: '/'},
 
         {
             path: '/',
-            component: Login
+            component: WelcomeDash
         },
 
         {
             path: '/login',
             name: 'Login',
             component: Login
+        },
+
+        {
+            path: '/dashboard',
+            name: 'Dashboard',
+            component: CustomerIndex
         },
 
         {

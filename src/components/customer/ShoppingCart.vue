@@ -52,7 +52,9 @@
             totalValue() {
                 let res = 0;
                 this.cartItemList.map(item => {
-                    res += item.product_price * item.quantity;
+
+                    res += item.product_price * item.product_quantity;
+
                 });
                 return res;
             }
@@ -68,16 +70,22 @@
         methods: {
 
             ...mapActions(['saveShoppingCart', 'addMessage', 'saveToTransaction', 'clearCart']),
+
             checkValidCart(itemList, prodList) {
                 let isValid = true;
                 let message = "";
 
                 itemList.map(item => {
                     for (let prodIdx = 0; prodIdx < prodList.length; prodIdx++) {
+
                         if (prodList[prodIdx].product_id === item.id) {
-                            if (prodList[prodIdx].product_stock < item.quantity) {
+
+                            if (prodList[prodIdx].product_stock < item.product_quantity) {
+
                                 message = `Only ${prodList[prodIdx].product_stock} ${item.product_name} available in stock`;
+
                                 isValid = false;
+
                                 return;
                             }
                             break;
@@ -93,21 +101,24 @@
             saveShoppingCartLocal() {
 
                 if (this.isLoggedIn) {
+
                     let {
                         isValid,
                         message
                     } = this.checkValidCart(this.cartItemList, this.products);
 
                     if (isValid) {
+
                         this.saveShoppingCart({
                             cartItemList: this.cartItemList,
+
                             uid: this.currentUser.uid
                         }).then(() => {
                             this.addMessage({
                                 messageClass: 'success',
-                                message: 'Your shopping cart is saved successfully'
+                                message: 'Continue Shopping...'
                             });
-                            this.$router.push('/');
+                            this.$router.push('/dashboard');
                         });
                     } else {
                         this.addMessage({
@@ -122,6 +133,7 @@
                     });
                 }
             },
+
             checkout() {
                 if (this.isLoggedIn) {
                     if (!this.cartItemList || this.cartItemList.length === 0) {

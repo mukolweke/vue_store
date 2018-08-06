@@ -2,7 +2,7 @@
     <div class="container">
         <div class="col-md-12">
             <div class="thumbnail">
-                <img class="img-responsive" src="../../assets/ps4.jpg" alt="">
+                <img class="img-responsive img_logo" src="../../assets/ps4.jpg" alt="">
                 <div class="caption-full">
                     <h4 class="pull-right">$ {{ item.product_price }}</h4>
                     <h4> {{ item.product_name }}</h4>
@@ -11,7 +11,7 @@
                 <div class="ratings">
                     <span>{{ item.product_stock }} left in stock</span>
                     <p class="pull-right">
-                        <button @click="addItem" :disabled="item.quantity === 0" class="btn btn-success">
+                        <button @click="addItem" :disabled="item.product_quantity === 0" class="btn btn-success">
                             Add to cart
                         </button>
                     </p>
@@ -34,33 +34,37 @@
 
     export default {
         components: {},
+
         data() {
             return {}
         },
         computed: {
-            ...mapGetters(['isProductLoading', 'products']),
+            ...mapGetters(['isProductLoading', 'shopProductList']),
+
             item() {
                 let id = this.$route.params.id;
-                if (this.products.length >= id) {
-                    let filterArr = this.products.filter((item) => {
-                        return item.id === id
-                    });
-                    if (filterArr.length > 0) {
-                        return filterArr[0];
-                    }
+
+                if (this.shopProductList.length >= 1) {
+
+                    const result = this.shopProductList.filter(productlist => productlist.product_id == id);
+
+                    return result[0]||{};
                 }
                 return {};
             }
         },
         methods: {
             ...mapActions(['updateCart']),
+
             addItem() {
                 const order = {
                     item: Object.assign({}, this.item),
-                    quantity: 1,
+
+                    product_quantity: 1,
+
                     isAdd: true
                 };
-                // console.log(order);
+
                 this.updateCart(order);
             }
         }
@@ -77,5 +81,9 @@
         padding-right: 10px;
         padding-left: 10px;
         color: #d17581;
+    }
+
+    .img_logo{
+        height: 300px;
     }
 </style>
