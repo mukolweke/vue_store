@@ -22,7 +22,7 @@
                 <router-link to="/signup" tag="li" v-if="!isLoggedIn"><a>Register</a></router-link>
                 <li>
                     <router-link to="/cart" class="btn btn-success navbar-btn" tag="button">
-                        Checkout <span class="badge">{{ numItems }} (Ksh {{ cartValue }})</span>
+                        Checkout <span class="badge">{{ numItems }}&nbsp;items&nbsp;Ksh&nbsp;{{ cartValue }}</span>
                     </router-link>
                 </li>
 

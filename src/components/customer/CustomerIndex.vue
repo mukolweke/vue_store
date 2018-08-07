@@ -13,8 +13,9 @@
     import ProductItem from './ProductItem.vue';
 
     export default {
-
+        name: 'CustomerIndex',
         data() {
+
             return {
 
             }

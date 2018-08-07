@@ -17,7 +17,7 @@
     } from 'vuex';
 
     export default {
-        name: "Login",
+        name: "WelcomeDash",
 
         data: function () {
             return {

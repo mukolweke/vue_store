@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TestComponent has the expected html structure 1`] = `
+<div>
+  <span>
+    Vesper
+  </span>
+   
+  <button>
+    Click Me
+  </button>
+</div>
+`;

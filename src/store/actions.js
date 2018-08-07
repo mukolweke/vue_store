@@ -9,7 +9,7 @@ export const updateCart = ({ commit }, order) => {
     if (order.isAdd) {
 
         let message_obj = {
-            message: `${item.product_name} added to cart`,
+            message: `${order.product_name} added to cart`,
             messageClass: "success",
             autoClose: true
         }
@@ -19,9 +19,9 @@ export const updateCart = ({ commit }, order) => {
 
 }
 
-export const removeItemInCart = ({commit}, {item}) => {
+export const removeItemInCart = ({commit}, order) => {
 
-    commit('REMOVE_CART_ITEM', {item});
+    commit('REMOVE_CART_ITEM', {order});
 
 }
 
