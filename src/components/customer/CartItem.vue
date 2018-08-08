@@ -13,7 +13,7 @@
 		</td>
 		<td data-th="Price">{{ cartItem.product_price }}</td>
 		<td data-th="Quantity">
-			<input type="number" class="form-control text-center" 
+			<input type="number" class="form-control text-center"
 				:value="cartItem.product_quantity"
 
 				@input="updateQuantity"
@@ -21,7 +21,7 @@
 		</td>
 		<td data-th="Subtotal" class="text-center">${{ subtotal }}</td>
 		<td class="actions" data-th="">
-			<button class="btn btn-danger btn-sm" @click="removeItem"><i class="fa fa-trash-o"></i></button>								
+			<button class="btn btn-danger btn-sm" @click="removeItem"><i class="fa fa-trash-o"></i></button>
 		</td>
 	</tr>
 </template>
@@ -34,6 +34,7 @@
 		computed: {
 
 			subtotal() {
+
 				return this.cartItem.product_quantity * this.cartItem.product_price;
 			},
 
@@ -42,26 +43,19 @@
 			...mapActions(['updateCart', 'removeItemInCart']),
 
 			removeItem() {
-				let vm = this;
-				this.removeItemInCart({
 
-					item: vm.cartItem
+                let order = {...this.cartItem}
 
-				});
+				this.removeItemInCart(order);
 			},
 
 			updateQuantity(event) {
-				let vm = this;
 
-				this.updateCart({
+				let order = {...this.cartItem,product_quantity:(parseInt (event.target.value)),isAdd: false }
 
-					item: vm.cartItem,
-
-					quantity: parseInt(event.target.value),
-
-					isAdd: false
-				});
+                this.updateCart(order);
 			}
+
 		}
 	}
 </script>

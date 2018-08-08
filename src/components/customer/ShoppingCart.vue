@@ -12,7 +12,7 @@
             </thead>
 
             <transition-group name="list-shopping-cart" tag="tbody">
-                <app-cart-item v-for="cartItem in cartItemList" :cartItem="cartItem" :key="cartItem.id"></app-cart-item>
+                <app-cart-item v-for="cartItem in cartItemList" :cartItem="cartItem" :key="cartItem.product_id"></app-cart-item>
             </transition-group>
 
             <tfoot>
@@ -26,7 +26,7 @@
                     </button>
                 </td>
                 <td colspan="2" class="hidden-xs"></td>
-                <td class="hidden-xs text-center"><strong>Total ${{ totalValue }}</strong></td>
+                <td class="hidden-xs text-center"><strong>Total&nbsp;${{ totalValue }}</strong></td>
                 <td>
                     <button class="btn btn-success btn-block" @click="checkout">
                         Checkout <i class="fa fa-angle-right"></i>
@@ -47,10 +47,12 @@
 
     export default {
         computed: {
-            ...mapGetters(['cartItemList', 'isLoggedIn', 'products', 'currentUser']),
+            ...mapGetters(['cartItemList', 'isLoggedIn', 'shopProductList', 'currentUser']),
 
             totalValue() {
+
                 let res = 0;
+
                 this.cartItemList.map(item => {
 
                     res += item.product_price * item.product_quantity;
@@ -105,7 +107,7 @@
                     let {
                         isValid,
                         message
-                    } = this.checkValidCart(this.cartItemList, this.products);
+                    } = this.checkValidCart(this.cartItemList, this.shopProductList);
 
                     if (isValid) {
 
@@ -146,7 +148,7 @@
                     let {
                         isValid,
                         message
-                    } = this.checkValidCart(this.cartItemList, this.products);
+                    } = this.checkValidCart(this.cartItemList, this.shopProductList);
 
                     if (isValid) {
                         this.saveToTransaction({
