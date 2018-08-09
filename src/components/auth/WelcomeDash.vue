@@ -4,7 +4,8 @@
             <img src="../../assets/Chicken.png" alt="" class="img_logo"/>
             <h1 class="text-center">Welcome to Kuku Game Store</h1>
             <h4 class="text-center" v-if="!isLoggedIn"> Please Login to do shop ...</h4>
-            <h4 class="text-center" v-if="isLoggedIn"> Go to <router-link to="/dashboard">Dashboard</router-link> to shop...</h4>
+            <h4 class="text-center" v-if="getCustomerPermission"> Go to <router-link to="/customer-dashboard">Dashboard</router-link> to shop...</h4>
+            <h4 class="text-center" v-if="getAdminPermission"> Go to <router-link to="/admin-dashboard">Dashboard</router-link> to shop...</h4>
         </div>
     </div>
 </template>
@@ -49,10 +50,20 @@
         },
 
         computed: {
-            ...mapGetters(['isLoggedIn']),
+            ...mapGetters(['isLoggedIn','currentUser']),
 
             userEmail() {
                 return this.isLoggedIn ? this.currentUser.email : ''
+            },
+
+            getAdminPermission(){
+
+                return this.isLoggedIn && (this.currentUser.email == "admin@admin.com");
+            },
+
+            getCustomerPermission(){
+
+                return this.isLoggedIn && !(this.currentUser.email == "admin@admin.com");
             }
         },
 

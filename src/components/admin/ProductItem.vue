@@ -8,6 +8,8 @@
 
                 <h4 style="color: #5cb85c;">{{ item.product_name }}</h4>
 
+                <p>{{ item.product_type }}</p>
+
                 <p class="truncate">{{ item.product_desc | shortDescription}}</p>
 
             </div>

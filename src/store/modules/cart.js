@@ -70,28 +70,7 @@ const getters = {
         return state.cartItemList;
 
     },
-
-    // cartItemCount: (state) => {
-    //
-    //     let obj = state.cartItemList;
-    //     console.log('obj',obj)
-    //
-    //     let qty = obj.product_quantity;
-    //     console.log('obj qty',qty)
-    //
-    //
-    //     function sum(obj) {
-    //         let sum = 0;
-    //         for (qty in obj) {
-    //             if (obj.hasOwnProperty(qty)) {
-    //                 sum += parseFloat(obj[qty]);
-    //             }
-    //         }
-    //         return sum;
-    //     }
-    //
-    // },
-
+    
     cartValue: (state) => {
         let res = 0;
 

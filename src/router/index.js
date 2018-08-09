@@ -33,8 +33,8 @@ let router = new Router({
         },
 
         {
-            path: '/dashboard',
-            name: 'Dashboard',
+            path: '/customer-dashboard',
+            name: 'customer-dashboard',
             component: CustomerIndex
         },
 
@@ -56,8 +56,8 @@ let router = new Router({
         },
 
         {
-            path: '/admin',
-            name: 'admin',
+            path: '/admin-dashboard',
+            name: 'admin-dashboard',
             component: AdminIndex,
             meta: {
                 requiresAuth: true
