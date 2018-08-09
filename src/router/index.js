@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import CustomerIndex from '@/components/customer/CustomerIndex'
 import AdminIndex from '@/components/admin/AdminIndex'
+import Order from '@/components/admin/Orders'
 import CreateProduct from '@/components/admin/CreateProduct'
 import Login from '@/components/auth/Login'
 import Signup from '@/components/auth/Signup'
@@ -58,6 +59,15 @@ let router = new Router({
             path: '/admin',
             name: 'admin',
             component: AdminIndex,
+            meta: {
+                requiresAuth: true
+            }
+
+        },
+        {
+            path: '/orders',
+            name: 'order',
+            component: Order,
             meta: {
                 requiresAuth: true
             }

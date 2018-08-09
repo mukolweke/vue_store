@@ -57,13 +57,13 @@
                     return value;
                 }
             }
-        }
+        },
 
     }
 </script>
 
 <style scoped>
-    div.thumbnail {
+    div.thumbnail-image {
         height: 100%;
     }
 

@@ -17,13 +17,16 @@ import {
 export default {
   computed: {
     ...mapGetters(['messages']),
+
     showMessageBar() {
       return this.messages.message && this.messages.message.length > 0;
     },
+
     messageClass() {
       let mgClass = this.messages.messageClass;
       return "col-xs-12 panel panel-" + mgClass + " " + (this.showMessageBar ? "" : "hidden");
     },
+
     currentMessage() {
       return this.messages.message;
     }
@@ -72,8 +75,9 @@ export default {
 }
 
 .panel-success {
+  margin-top: 50px;
   background-color: #5cb85c;
-  color: #FFF;
+  color: #d6e9c6;
 }
 
 .panel-warning {

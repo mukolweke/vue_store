@@ -1,5 +1,7 @@
 <template>
     <div>
+        <h2 class="text-center">Create Product</h2>
+        <p class="text-center help-block">Please fill in the details correctly</p>
         <el-container>
             <el-card class="box-card-outer">
                 <p v-if="errors.length">
@@ -11,14 +13,14 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form ref="form" :model="form" label-width="120px">
-                            <el-form-item label="Product Name: ">
-                                <el-input class="inpt" v-model="form.product_name"></el-input>
+                            <el-form-item label="Product Model: ">
+                                <el-input class="inpt" placeholder="PlayStation" v-model="form.product_name"></el-input>
                             </el-form-item>
                             <el-form-item label="Product Type: ">
-                                <el-input class="inpt" v-model="form.product_type"></el-input>
+                                <el-input class="inpt" placeholder="PS4 Pro" v-model="form.product_type"></el-input>
                             </el-form-item>
                             <el-form-item label="Description: ">
-                                <el-input class="inpt" v-model="form.product_desc"></el-input>
+                                <el-input class="inpt" placeholder="500GB, 2 GAMES ..." v-model="form.product_desc"></el-input>
                             </el-form-item>
                             <el-form-item label="Product Price: ">
                                 <el-input class="inpt" v-model="form.product_price"></el-input>
@@ -29,9 +31,10 @@
                             </el-form-item>
 
                             <el-form-item>
-                                <el-button type="success" @click="addProduct()"><i class="el-icon-check"></i> Product
+                                <el-button type="success" class="" @click="addItem()"><span class="glyphicon glyphicon-plus"></span>&nbsp;PRODUCT
                                 </el-button>
                             </el-form-item>
+
                         </el-form>
                     </el-col>
                 </el-row>
@@ -43,8 +46,8 @@
 
 <script>
     import {ref} from '../../firebase.conf'
+    import { mapActions } from 'vuex';
 
-    let vm = this;
     export default {
         data() {
             return {
@@ -61,12 +64,11 @@
                 product:''
             }
         },
-        firebase :{
-            // product: ref.ref('product')
-        },
-        methods: {
 
-            addProduct() {
+        methods: {
+            ...mapActions(['addProduct']),
+
+            addItem() {
                 this.errors = [];
 
                 if (!this.form.product_name) {
@@ -87,21 +89,28 @@
 
                 if (this.form.product_stock && this.form.product_price && this.form.product_type && this.form.product_desc && this.form.product_name) {
 
-                    this.$firebaseRefs.product.push({
-                        name: this.form.product_name,
-                        type: this.form.product_type,
-                        desc: this.form.product_desc,
-                        price: this.form.product_price,
-                        stock: this.form.product_stock,
-                        edit: false
-                    })
+                    // this.$firebaseListener.product.push({
+                    //     name: this.form.product_name,
+                    //     type: this.form.product_type,
+                    //     desc: this.form.product_desc,
+                    //     price: this.form.product_price,
+                    //     stock: this.form.product_stock,
+                    //     edit: false
+                    // })
 
                     // adds to store
-                    this.$store.dispatch('AddProducts', this.form).then(() => {
+                    // this.$store.dispatch('AddProducts', this.form).then(() => {
+                    //     this.form = {};
+                    //     this.open();
+                    //     this.goHome();
+                    // });
+
+                    this.addProduct(this.form).then(()=>{
                         this.form = {};
-                        this.open();
-                        this.goHome();
-                    });
+                            this.open();
+                            this.goHome();
+                    })
+
 
                     return true;
 
@@ -116,6 +125,7 @@
                 });
 
             },
+
             goHome()
             {
                 this.$router.push({name: 'admin'});

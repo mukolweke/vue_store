@@ -10,7 +10,7 @@ const state = {
         //     isAdd: true,
         //     product_id: 1
         // },
-    ]
+    ],
 };
 
 const mutations = {
@@ -25,6 +25,8 @@ const mutations = {
 
                 record.product_quantity += order.order.product_quantity;
 
+                this.prods.product_stock -= order.order.product_quantity;
+
             } else {
 
                 record.product_quantity = order.order.product_quantity;
@@ -32,7 +34,9 @@ const mutations = {
             }
         } else {
 
-            state.cartItemList.push(order.order)
+            state.cartItemList.push(order.order);
+
+            this.prods.product_stock -= order.order.product_quantity;
 
         }
     },
