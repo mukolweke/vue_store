@@ -1,8 +1,6 @@
-
-
 const state = {
-	isLoading: true,
-    products:[
+    isLoading: true,
+    products: [
         {
             product_name: 'PLAYSTATION',
             product_type: 'PS2',
@@ -46,7 +44,7 @@ const state = {
         {
             product_name: 'SONY EARPHONES',
             product_type: 'EARPIECE',
-            product_desc: 'Original, White, 3 circle ...',
+            product_desc: 'Original, White, 3 circleOriginal, White, 3 circleOriginal, White, 3 circleOriginal, White, 3 circleOriginal, White, 3 circle ...',
             product_price: '500',
             product_stock: 10,
             product_id: 6
@@ -56,33 +54,58 @@ const state = {
 };
 
 const mutations = {
-	'UPDATE_PRODUCT_LIST' (state, productList) {
-		state.productList = productList;
-		state.isLoading = false;
-	}
+
+    'UPDATE_PRODUCT_LIST'(state, productList) {
+
+        state.productList = productList;
+
+        state.isLoading = false;
+    },
+
+    'ADD_PRODUCT'(state, product){
+
+        state.products.push(product)
+    },
+
+    'DELETE_PRODUCT'(state, key){
+
+        let array = state.products;
+
+        let prod = array.find(element => element.product_id === key);
+
+        const index = array.indexOf(prod);
+
+        array.splice(index, 1);
+    }
 };
 
 const actions = {
-
+    updateProductList:({commit}, key)=>{
+        commit('DELETE_PRODUCT', key);
+    },
+    addProduct:({commit}, product)=>{
+        commit('ADD_PRODUCT', product);
+    }
 }
 
 const getters = {
     shopProductList: (state) => {
 
-		return state.products;
+        return state.products;
 
-	},
+    },
 
-	isProductLoading: (state) => {
+    isProductLoading: (state) => {
 
-		return state.isLoading;
+        return state.isLoading;
 
-	}
+    },
+
 };
 
 export default {
-	state,
-	mutations,
-	actions,
-	getters
+    state,
+    mutations,
+    actions,
+    getters
 }

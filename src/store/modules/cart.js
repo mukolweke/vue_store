@@ -1,16 +1,5 @@
 const state = {
-    cartItemList: [
-        // {
-        //     product_name: 'PLAYSTATION',
-        //     product_type: 'PS2',
-        //     product_desc: '2ND HAND, CHIPPED',
-        //     product_price: '9000',
-        //     product_stock: 80,
-        //     product_quantity: 1,
-        //     isAdd: true,
-        //     product_id: 1
-        // },
-    ]
+    cartItemList: [],
 };
 
 const mutations = {
@@ -25,6 +14,8 @@ const mutations = {
 
                 record.product_quantity += order.order.product_quantity;
 
+                this.prods.product_stock -= order.order.product_quantity;
+
             } else {
 
                 record.product_quantity = order.order.product_quantity;
@@ -32,7 +23,9 @@ const mutations = {
             }
         } else {
 
-            state.cartItemList.push(order.order)
+            state.cartItemList.push(order.order);
+
+            this.prods.product_stock -= order.order.product_quantity;
 
         }
     },
@@ -66,28 +59,7 @@ const getters = {
         return state.cartItemList;
 
     },
-
-    // cartItemCount: (state) => {
-    //
-    //     let obj = state.cartItemList;
-    //     console.log('obj',obj)
-    //
-    //     let qty = obj.product_quantity;
-    //     console.log('obj qty',qty)
-    //
-    //
-    //     function sum(obj) {
-    //         let sum = 0;
-    //         for (qty in obj) {
-    //             if (obj.hasOwnProperty(qty)) {
-    //                 sum += parseFloat(obj[qty]);
-    //             }
-    //         }
-    //         return sum;
-    //     }
-    //
-    // },
-
+    
     cartValue: (state) => {
         let res = 0;
 

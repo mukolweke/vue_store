@@ -31,6 +31,7 @@
 
 	export default {
 		props: ['cartItem'],
+
 		computed: {
 
 			subtotal() {
@@ -44,7 +45,7 @@
 
 			removeItem() {
 
-                let order = {...this.cartItem}
+                let order = {...this.cartItem,isRemove: true}
 
 				this.removeItemInCart(order);
 			},

@@ -120,7 +120,7 @@
                                 messageClass: 'success',
                                 message: 'Continue Shopping...'
                             });
-                            this.$router.push('/dashboard');
+                            this.$router.push('/customer-dashboard');
                         });
                     } else {
                         this.addMessage({

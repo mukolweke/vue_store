@@ -2,15 +2,14 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import CustomerIndex from '@/components/customer/CustomerIndex'
 import AdminIndex from '@/components/admin/AdminIndex'
+import Order from '@/components/admin/Orders'
 import CreateProduct from '@/components/admin/CreateProduct'
 import Login from '@/components/auth/Login'
 import Signup from '@/components/auth/Signup'
-import firebase from 'firebase'
 import ShoppingCart from '@/components/customer/ShoppingCart'
 import ProductDetails from '@/components/customer/ProductDetails';
-import WelcomeDash from '@/components/auth/WelcomeDash'
-
-
+import WelcomeDash from '@/components/auth/WelcomeDash';
+import MyOrder from '@/components/customer/MyOrders';
 
 Vue.use(Router)
 
@@ -32,9 +31,21 @@ let router = new Router({
         },
 
         {
-            path: '/dashboard',
-            name: 'Dashboard',
-            component: CustomerIndex
+            path: '/customer-dashboard',
+            name: 'customer-dashboard',
+            component: CustomerIndex,
+            meta: {
+                requiresAuth: true
+            }
+        },
+
+        {
+            path: '/my-orders',
+            name: 'my-order',
+            component: MyOrder,
+            meta: {
+                requiresAuth: true
+            }
         },
 
         {
@@ -42,7 +53,6 @@ let router = new Router({
             name: 'Signup',
             component: Signup
         },
-
 
         {
             path: '/customer',
@@ -55,9 +65,18 @@ let router = new Router({
         },
 
         {
-            path: '/admin',
-            name: 'admin',
+            path: '/admin-dashboard',
+            name: 'admin-dashboard',
             component: AdminIndex,
+            meta: {
+                requiresAuth: true
+            }
+
+        },
+        {
+            path: '/orders',
+            name: 'order',
+            component: Order,
             meta: {
                 requiresAuth: true
             }
@@ -87,7 +106,11 @@ let router = new Router({
         {
             path: '/product/:id',
             component: ProductDetails,
-            name: 'product'},
+            name: 'product',
+            meta: {
+                requiresAuth: true
+            }
+        },
 
 
     ]

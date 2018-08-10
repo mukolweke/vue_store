@@ -6,7 +6,7 @@
                 <div class="caption-full">
                     <h4 class="pull-right">$ {{ item.product_price }}</h4>
                     <h4> {{ item.product_name }}</h4>
-                    <p> {{ item.product_desc }} </p>
+                    <p> {{ item.product_desc | shortDescription}} </p>
                 </div>
                 <div class="ratings">
                     <span>{{ item.product_stock }} left in stock</span>
@@ -27,13 +27,11 @@
 
 <script>
 
-    import {
-        mapActions,
-        mapGetters
-    } from 'vuex';
+    import {mapGetters} from 'vuex';
+    import {addItemMixin} from "../../mixins/addItemMixin";
 
     export default {
-        components: {},
+        mixins: [addItemMixin],
 
         data() {
             return {}
@@ -53,21 +51,7 @@
                 return {};
             }
         },
-        methods: {
-            ...mapActions(['updateCart']),
 
-            addItem() {
-                const order = {
-                    item: Object.assign({}, this.item),
-
-                    product_quantity: 1,
-
-                    isAdd: true
-                };
-
-                this.updateCart(order);
-            }
-        }
     }
 </script>
 

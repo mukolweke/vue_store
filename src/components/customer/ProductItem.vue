@@ -17,7 +17,8 @@
 
                 <p class="pull-right">
 
-                    <button class="btn btn-success" :disabled="item.product_stock === 0" @click="addItem"> Add to cart </button>
+                    <button class="btn btn-success" :disabled="item.product_stock === 0" @click="addItem"> Add to cart
+                    </button>
 
                 </p>
 
@@ -28,42 +29,19 @@
 </template>
 
 <script>
-    import {mapActions} from 'vuex';
+    import {addItemMixin} from "../../mixins/addItemMixin";
 
     export default {
 
         props: ['item', 'products'],
 
-        methods: {
-
-            ...mapActions(['updateCart']),
-
-            addItem() {
-
-                let order = {...this.item,product_quantity:1, isAdd: true}
-
-                this.updateCart(order);
-            }
-        },
-
-        filters: {
-
-            shortDescription(value) {
-
-                if (value && value.length > 100) {
-
-                    return value.substring(0, 100) + '...';
-                } else {
-                    return value;
-                }
-            }
-        }
+        mixins: [addItemMixin],
 
     }
 </script>
 
 <style scoped>
-    div.thumbnail {
+    div.thumbnail-image {
         height: 100%;
     }
 

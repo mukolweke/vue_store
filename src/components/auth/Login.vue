@@ -44,10 +44,10 @@
 
                 firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
                     (user) => {
-                        if (this.email === "michaelolukaka@gmail.com") {
-                            this.$router.replace('admin')
+                        if (this.email === "admin@admin.com") {
+                            this.$router.replace('admin-dashboard')
                         } else {
-                            this.$router.push('/dashboard')
+                            this.$router.push('/customer-dashboard')
                         }
                     },
 
