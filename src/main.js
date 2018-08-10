@@ -12,7 +12,8 @@ import VueFire from 'vuefire'
 import {firebaseListener} from './firebase.conf'
 import locale from 'element-ui/lib/locale/lang/en';
 import 'element-ui/lib/theme-chalk/index.css';
-import filters from './filter/filter';
+
+require('./filter/filter');
 
 Vue.use(ElementUI, {locale});
 Vue.use(Vuex);
@@ -21,6 +22,7 @@ Vue.config.productionTip = false
 
 
 firebaseListener(authStatusChange);
+
 
 /* eslint-disable no-new */
 let app;

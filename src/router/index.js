@@ -6,12 +6,10 @@ import Order from '@/components/admin/Orders'
 import CreateProduct from '@/components/admin/CreateProduct'
 import Login from '@/components/auth/Login'
 import Signup from '@/components/auth/Signup'
-import firebase from 'firebase'
 import ShoppingCart from '@/components/customer/ShoppingCart'
 import ProductDetails from '@/components/customer/ProductDetails';
-import WelcomeDash from '@/components/auth/WelcomeDash'
-
-
+import WelcomeDash from '@/components/auth/WelcomeDash';
+import MyOrder from '@/components/customer/MyOrders';
 
 Vue.use(Router)
 
@@ -35,7 +33,19 @@ let router = new Router({
         {
             path: '/customer-dashboard',
             name: 'customer-dashboard',
-            component: CustomerIndex
+            component: CustomerIndex,
+            meta: {
+                requiresAuth: true
+            }
+        },
+
+        {
+            path: '/my-orders',
+            name: 'my-order',
+            component: MyOrder,
+            meta: {
+                requiresAuth: true
+            }
         },
 
         {
@@ -43,7 +53,6 @@ let router = new Router({
             name: 'Signup',
             component: Signup
         },
-
 
         {
             path: '/customer',
@@ -97,7 +106,11 @@ let router = new Router({
         {
             path: '/product/:id',
             component: ProductDetails,
-            name: 'product'},
+            name: 'product',
+            meta: {
+                requiresAuth: true
+            }
+        },
 
 
     ]

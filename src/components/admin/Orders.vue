@@ -3,10 +3,10 @@
         <table id="cart" class="table table-hover table-condensed">
             <thead>
             <tr>
-                <th style="width:30%">Customer</th>
+                <th style="width:20%">Customer</th>
                 <th style="width:40%">Shopping</th>
-                <th style="width:20%">Total</th>
-                <th style="width:10%"></th>
+                <th style="width:30%" class="text-center">Total</th>
+                <th style="width:10%">Action</th>
             </tr>
             </thead>
 
@@ -20,7 +20,7 @@
 
 <script>
     import { mapGetters }from 'vuex'
-    import OrderItem from './OrderItem'
+    import OrderItem from './OrderAdminItem'
 
     export default {
         name: "Orders",

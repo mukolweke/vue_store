@@ -44,7 +44,7 @@ const state = {
         {
             product_name: 'SONY EARPHONES',
             product_type: 'EARPIECE',
-            product_desc: 'Original, White, 3 circle ...',
+            product_desc: 'Original, White, 3 circleOriginal, White, 3 circleOriginal, White, 3 circleOriginal, White, 3 circleOriginal, White, 3 circle ...',
             product_price: '500',
             product_stock: 10,
             product_id: 6

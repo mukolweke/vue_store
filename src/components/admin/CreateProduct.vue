@@ -11,17 +11,8 @@
 
     export default {
         name: "CreateProduct",
+        
         components:{product_form},
-        methods:{
-
-            logout: function () {
-
-                firebase.auth().signOut().then(() => {
-                    this.$router.replace('login')
-                })
-            },
-
-        }
     }
 </script>
 

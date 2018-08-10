@@ -1,16 +1,5 @@
 const state = {
-    cartItemList: [
-        // {
-        //     product_name: 'PLAYSTATION',
-        //     product_type: 'PS2',
-        //     product_desc: '2ND HAND, CHIPPED',
-        //     product_price: '9000',
-        //     product_stock: 80,
-        //     product_quantity: 1,
-        //     isAdd: true,
-        //     product_id: 1
-        // },
-    ],
+    cartItemList: [],
 };
 
 const mutations = {

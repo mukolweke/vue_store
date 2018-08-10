@@ -7,18 +7,18 @@
 
                     <!--customer links-->
                     <li v-if="getCustomerPermission">
-                        <router-link to="/dashboard" class="navbar-brand">Kuku Gamers Store</router-link>
+                        <router-link to="/customer-dashboard" class="navbar-brand">KUKU-GAMERZ</router-link>
                     </li>
                     <li v-if="!isLoggedIn">
-                        <router-link to="/" class="navbar-brand">Kuku Gamers Store</router-link>
+                        <router-link to="/" class="navbar-brand">KUKU-GAMERZ</router-link>
                     </li>
 
                     <!--admin links-->
                     <li v-if="getAdminPermission">
-                        <router-link to="/admin" class="navbar-brand">Kuku Gamers Store</router-link>
+                        <router-link to="/admin-dashboard" class="navbar-brand">KUKU-GAMERZ</router-link>
                     </li>
                     <li v-if="getAdminPermission">
-                        <router-link to="/admin/create" class="navbar-brand">Create Product</router-link>
+                        <router-link to="/admin/create" class="navbar-brand">ADD PRODUCT</router-link>
                     </li>
                 </ul>
 
@@ -34,7 +34,7 @@
                 <!--admin order link-->
                 <li v-if="getAdminPermission">
                     <router-link to="/orders" class="btn btn-success navbar-btn" tag="button">
-                        Order <span class="badge">{{ numItems }}&nbsp;items</span>
+                        <span class="badge">{{ numOrders }}&nbsp;Order</span>
                     </router-link>
                 </li>
 
@@ -45,8 +45,13 @@
                     <ul class="dropdown-menu">
 
                         <router-link to="/login" tag="li" v-if="!isLoggedIn"><a>Login</a></router-link>
-                        <li role="separator" v-if="!isLoggedIn" class="divider"></li>
+
+                        <li v-if="isLoggedIn" class="li-pointer text-center"><a @click="my_orders">My Order <span class="glyphicon glyphicon-log-out"></span></a></li>
+
+                        <li role="separator" class="divider"></li>
+
                         <router-link to="/signup" tag="li" v-if="!isLoggedIn"><a>Register</a></router-link>
+
                         <li v-if="isLoggedIn" class="li-pointer text-center"><a @click="logout">Logout <span class="glyphicon glyphicon-log-out"></span></a></li>
 
                     </ul>
@@ -66,7 +71,7 @@
 
     export default {
         computed: {
-            ...mapGetters(['isLoggedIn', 'cartValue', 'currentUser', 'cartItemList']),
+            ...mapGetters(['isLoggedIn', 'cartValue', 'currentUser', 'cartItemList', 'getOrders']),
 
             numItems() {
                 return this.cartItemList.reduce((total, item) => {
@@ -76,6 +81,13 @@
                     return total
                 }, 0);
             },
+
+            numOrders(){
+
+               return this.getOrders.length;
+
+            },
+
             userEmail() {
 
                 return this.isLoggedIn ? this.currentUser.email : ''
@@ -100,6 +112,12 @@
 
                     vm.$router.push("/")
                 })
+
+            },
+
+            my_orders: function (){
+
+                this.$router.push('/my-orders');
 
             }
         }

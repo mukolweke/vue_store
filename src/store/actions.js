@@ -23,6 +23,37 @@ export const removeItemInCart = ({commit}, order) => {
 
     commit('REMOVE_CART_ITEM', {order});
 
+    // message
+    if (order.isRemove) {
+
+        let message_obj = {
+            message: `${order.cartItem.product_name} removed to cart`,
+            messageClass: "success",
+            autoClose: true
+        }
+
+        commit('ADD_MESSAGE', message_obj);
+    }
+
+}
+
+export const removeItemInOrder = ({commit}, order) => {
+
+    commit('REMOVE_ORDER_ITEM', {order});
+    console.log()
+    // message
+    if (order.isRemove) {
+        let sent_item = (({order}.order.shopping_list[0]||{}).product_name);
+
+        let message_obj = {
+            message: `${sent_item} sent to ${order.order_name}`,
+            messageClass: "success",
+            autoClose: true
+        }
+
+        commit('ADD_MESSAGE', message_obj);
+    }
+
 }
 
 export const registerByEmail = (_, {email, password}) => {
