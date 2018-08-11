@@ -1,43 +1,3 @@
-<template>
-    <div class="container">
-        <table id="cart" class="table table-hover table-condensed">
-            <thead>
-            <tr>
-                <th style="width:50%">Product</th>
-                <th style="width:10%">Price</th>
-                <th style="width:8%">Quantity</th>
-                <th style="width:22%" class="text-center">Subtotal</th>
-                <th style="width:10%"></th>
-            </tr>
-            </thead>
-
-            <transition-group name="list-shopping-cart" tag="tbody">
-                <app-cart-item v-for="cartItem in cartItemList" :cartItem="cartItem" :key="cartItem.product_id"></app-cart-item>
-            </transition-group>
-
-            <tfoot>
-            <tr class="visible-xs">
-                <td class="text-center"><strong>Total {{ totalValue }}</strong></td>
-            </tr>
-            <tr>
-                <td>
-                    <button class="btn btn-warning" @click="saveShoppingCartLocal">
-                        <i class="fa fa-angle-left"></i>Continue Shopping
-                    </button>
-                </td>
-                <td colspan="2" class="hidden-xs"></td>
-                <td class="hidden-xs text-center"><strong>Total&nbsp;${{ totalValue }}</strong></td>
-                <td>
-                    <button class="btn btn-success btn-block" @click="checkout">
-                        Checkout <i class="fa fa-angle-right"></i>
-                    </button>
-                </td>
-            </tr>
-            </tfoot>
-        </table>
-    </div>
-</template>
-
 <script>
     import {
         mapActions,
@@ -46,6 +6,12 @@
     import CartItem from './CartItem.vue';
 
     export default {
+        data() {
+            return {
+                activeName: '1'
+            };
+        },
+
         computed: {
             ...mapGetters(['cartItemList', 'isLoggedIn', 'shopProductList', 'currentUser']),
 
@@ -151,6 +117,7 @@
                     } = this.checkValidCart(this.cartItemList, this.shopProductList);
 
                     if (isValid) {
+
                         this.saveToTransaction({
                             cartItemList: this.cartItemList,
                             uid: this.currentUser.uid
@@ -183,13 +150,9 @@
     }
 </script>
 
-<style scoped>
-    .list-shopping-cart-leave-active {
-        transition: all 0.4s;
-    }
+<template src="./shoppingCart.php">
 
-    .list-shopping-cart-leave-to {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-</style>
+</template>
+
+
+

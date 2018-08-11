@@ -8,14 +8,14 @@
                 </div>
                 <div class="col-sm-10">
                     <p>
-                        <span class="pname">{{ order_desc.product_name }}</span>
-                        <span class="qty">QTY:&nbsp;{{order_desc.product_quantity }}</span>
-                        <span class="price">PRICE:&nbsp;{{order_desc.product_price}}</span>
+                        <span class="pname">{{ order_desc.product_name | toUp}}</span>
+                        <span class="qty">{{order_desc.product_quantity | toQTY }}</span>
+                        <span class="price">{{order_desc.product_price | toKSH }}</span>
                     </p>
                 </div>
             </div>
         </td>
-        <td style="width:30%" data-th="Subtotal" class="text-center">{{orderTotal}}</td>
+        <td style="width:30%" data-th="Subtotal" class="text-center">{{orderTotal | toKSH}}</td>
         <td style="width:10%" class="actions" data-th="">
             <button class="btn btn-success btn-sm" @click="cancelOrder(order.order_id)"><i class="">SEND ORDER&nbsp;<span
                     class="glyphicon glyphicon-send"></span></i></button>

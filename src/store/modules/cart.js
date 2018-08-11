@@ -6,26 +6,22 @@ const mutations = {
 
     'UPDATE_CART'(state, order) {
 
-        const record = state.cartItemList.find(element => element.product_id === order.order.product_id);
+        const recordCart = state.cartItemList.find(element => element.product_id === order.order.product_id);
 
         // if it exist update the product quantity
-        if (record) {
+        if (recordCart ) {
             if (order.order.isAdd) {
 
-                record.product_quantity += order.order.product_quantity;
-
-                this.prods.product_stock -= order.order.product_quantity;
+                recordCart.product_quantity += order.order.product_quantity;
 
             } else {
 
-                record.product_quantity = order.order.product_quantity;
+                recordCart.product_quantity = order.order.product_quantity;
 
             }
         } else {
 
             state.cartItemList.push(order.order);
-
-            this.prods.product_stock -= order.order.product_quantity;
 
         }
     },
@@ -39,6 +35,7 @@ const mutations = {
     },
 
     'REMOVE_CART_ITEM'(state, order) {
+
         const record = state.cartItemList.find(element => element.product_id === order.order.product_id);
 
         state.cartItemList.splice(state.cartItemList.indexOf(record), 1);

@@ -4,13 +4,17 @@ export const addItemMixin =  {
 
     methods: {
 
-        ...mapActions(['updateCart']),
+        ...mapActions(['updateCart','reduceStock']),
 
         addItem() {
-
+           let vm = this;
             let order = {...this.item,product_quantity:1, isAdd: true}
 
-            this.updateCart(order);
+            this.updateCart(order).then(()=>{
+
+                this.reduceStock(order)
+
+            });
         }
     },
 }

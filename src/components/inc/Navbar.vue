@@ -46,7 +46,7 @@
 
                         <router-link to="/login" tag="li" v-if="!isLoggedIn"><a>Login</a></router-link>
 
-                        <li v-if="isLoggedIn" class="li-pointer text-center"><a @click="my_orders">My Order <span class="glyphicon glyphicon-log-out"></span></a></li>
+                        <li v-if="getCustomerPermission" class="li-pointer text-center"><a @click="my_orders">My Order <span class="glyphicon glyphicon-log-out"></span></a></li>
 
                         <li role="separator" class="divider"></li>
 
