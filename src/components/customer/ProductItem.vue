@@ -4,9 +4,9 @@
             <img src="../../assets/ps4.jpg" alt="" class="grow thumbnail-image">
             <div class="caption margin-left-sm">
 
-                <h4 class="pull-right">${{ item.product_price }}</h4>
+                <h4 class="pull-right">{{ item.product_price | toKSH}}</h4>
 
-                <router-link :to="'/product/' + item.product_id" tag="h4"><a>{{ item.product_name }}</a></router-link>
+                <router-link :to="'/product/' + item.product_id" tag="h4"><a>{{ item.product_name | camel}}</a></router-link>
 
                 <p class="truncate">{{ item.product_desc | shortDescription}}</p>
 
