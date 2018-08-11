@@ -1,39 +1,46 @@
 import Vue from 'vue';
 
-const formatDate = function (value) {
-        if (value === null) {
-            return '';
-        }
-        return moment(value).format('MMMM Do YYYY, h:mm:ss a');
-    }
-
 const camel = function(str){
     return str.toLowerCase().replace(/^\w|\s\w/g, function (letter) {
         return letter.toUpperCase();
     })
 }
 
-const shortDescription = function(value) {
+const readMore = function (text, length, suffix) {
 
-        if (value && value.length > 100) {
-
-            return value.substring(0, 100) + '...';
-        } else {
-            return value;
-        }
-    }
+    return text.substring(0, length) + suffix;
+};
 
 
+const toKSH = function (value) {
+    return `KSH ${value}.00`;
+};
 
-Vue.filter('formatDate', formatDate);
+const toQTY = function (value) {
+    return `QTY: ${value} units`;
+};
+
+const toUp = function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+}
 
 Vue.filter('camel', camel);
 
-Vue.filter('shortDescription', shortDescription);
+Vue.filter('readMore', readMore);
+
+Vue.filter('toKSH', toKSH);
+
+Vue.filter('toQTY', toQTY);
+
+Vue.filter('toUp', toUp);
 
 
 export default {
-    shortDescription: shortDescription,
     camel: camel,
-    formatDate: formatDate,
+    readMore: readMore,
+    toKSH: toKSH,
+    toQTY: toQTY,
+    toUp: toUp,
 };

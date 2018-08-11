@@ -4,13 +4,13 @@
             <img src="../../assets/ps4.jpg" alt="" class="grow thumbnail-image">
             <div class="caption margin-left-sm">
 
-                <h4 class="pull-right">${{ item.product_price }}</h4>
+                <h4 class="pull-right">{{ item.product_price | toFixed(2) | toKSH}}</h4>
 
-                <h4 style="color: #5cb85c;">{{ item.product_name }}</h4>
+                <h4 style="color: #5cb85c;">{{ item.product_name  | camel}}</h4>
 
                 <p>{{ item.product_type }}</p>
 
-                <p class="truncate">{{ item.product_desc | shortDescription}}</p>
+                <p class="truncate">{{ item.product_desc | readMore(10, '...')}}</p>
 
             </div>
             <div class="ratings margin-left-sm">
@@ -70,7 +70,7 @@
             </el-row>
 
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">Cancel</el-button>
+                <el-button @click="dialogVisible = false">CANCEL</el-button>
                 <el-button type="success" @click="dialogVisible = false"><span class="glyphicon glyphicon-edit"></span>&nbsp;PRODUCT</el-button>
               </span>
         </el-dialog>

@@ -1,14 +1,41 @@
+<script>
+    import {addItemMixin} from "../../mixins/addItemMixin";
+
+    export default {
+        data() {
+            return {
+                disableButton: false
+            }
+        },
+
+        props: ['item', 'products'],
+
+        mixins: [addItemMixin],
+
+        watch: {
+            'item.product_stock': function (newValue) {
+
+                this.disableButton = newValue === 0 ? true : false;
+
+            }
+
+        }
+
+    }
+</script>
+
 <template>
     <div class="col-sm-4 col-lg-4 col-md-4 item" :class="{'list-group-item': products}">
         <div class="thumbnail ">
             <img src="../../assets/ps4.jpg" alt="" class="grow thumbnail-image">
             <div class="caption margin-left-sm">
 
-                <h4 class="pull-right">${{ item.product_price }}</h4>
+                <h4 class="pull-right">{{ item.product_price | toKSH}}</h4>
 
-                <router-link :to="'/product/' + item.product_id" tag="h4"><a>{{ item.product_name }}</a></router-link>
+                <router-link :to="'/product/' + item.product_id" tag="h4"><a>{{ item.product_name | camel}}</a>
+                </router-link>
 
-                <p class="truncate">{{ item.product_desc | shortDescription}}</p>
+                <p class="truncate">{{ item.product_desc | readMore(10, '...')}}</p>
 
             </div>
             <div class="ratings margin-left-sm">
@@ -17,8 +44,7 @@
 
                 <p class="pull-right">
 
-                    <button class="btn btn-success" :disabled="item.product_stock === 0" @click="addItem"> Add to cart
-                    </button>
+                    <button class="btn btn-success" :disabled="disableButton" @click="addItem"> Add to cart</button>
 
                 </p>
 
@@ -28,17 +54,6 @@
     </div>
 </template>
 
-<script>
-    import {addItemMixin} from "../../mixins/addItemMixin";
-
-    export default {
-
-        props: ['item', 'products'],
-
-        mixins: [addItemMixin],
-
-    }
-</script>
 
 <style scoped>
     div.thumbnail-image {

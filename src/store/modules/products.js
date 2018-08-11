@@ -76,16 +76,49 @@ const mutations = {
         const index = array.indexOf(prod);
 
         array.splice(index, 1);
+    },
+
+    'REDUCE_STOCK'(state, order){
+
+        const recordCart = state.products.find(element => element.product_id === order.product_id);
+
+        recordCart.product_stock -= order.product_quantity;
+
+    },
+
+    'ADD_STOCK'(state, order){
+
+        const recordCart = state.products.find(element => element.product_id === order.product_id);
+
+        recordCart.product_stock += order.product_quantity;
+
     }
 };
 
 const actions = {
     updateProductList:({commit}, key)=>{
+
         commit('DELETE_PRODUCT', key);
+
     },
+
     addProduct:({commit}, product)=>{
+
         commit('ADD_PRODUCT', product);
-    }
+
+    },
+
+    reduceStock:({commit}, order)=>{
+
+        commit('REDUCE_STOCK', order);
+
+    },
+
+    addStock:({commit}, order)=>{
+
+        commit('ADD_STOCK', order);
+
+    },
 }
 
 const getters = {

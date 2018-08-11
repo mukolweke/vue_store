@@ -4,7 +4,7 @@
             <div class="thumbnail">
                 <img class="img-responsive img_logo" src="../../assets/ps4.jpg" alt="">
                 <div class="caption-full">
-                    <h4 class="pull-right">$ {{ item.product_price }}</h4>
+                    <h4 class="pull-right">{{ item.product_price | toKSH }}</h4>
                     <h4> {{ item.product_name }}</h4>
                     <p> {{ item.product_desc | shortDescription}} </p>
                 </div>
