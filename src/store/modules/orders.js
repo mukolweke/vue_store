@@ -1,3 +1,5 @@
+import filter from '../../filter/filter'
+
 const state = {
     isLoading: true,
     orders: [
@@ -17,6 +19,7 @@ const state = {
                 }
             ],
             status:0,
+            created_at: (new Date() | filter.formatDate),
             order_id:1,
         },
         {
@@ -30,6 +33,7 @@ const state = {
                 },
             ],
             status:0,
+            created_at: (new Date() | filter.formatDate),
             order_id:2,
         },
         {
@@ -43,6 +47,7 @@ const state = {
                 },
             ],
             status:0,
+            created_at: (new Date() | filter.formatDate),
             order_id:3
         },
 
