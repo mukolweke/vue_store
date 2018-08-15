@@ -1,7 +1,7 @@
 import filter from '../../filter/filter'
 
 const state = {
-    isLoading: true,
+    searchedOrder: [],
     orders: [
         {
             order_name: 'Mike Doe',
@@ -32,7 +32,7 @@ const state = {
                     product_price: 15000
                 },
             ],
-            status:0,
+            status:1,
             created_at: (new Date() | filter.formatDate),
             order_id:2,
         },
@@ -52,7 +52,6 @@ const state = {
         },
 
     ]
-
 };
 
 const mutations = {
@@ -63,11 +62,26 @@ const mutations = {
         let indx = state.orders.indexOf(record);
 
         state.orders.splice(indx, 1);
+    },
+
+    'SEARCH_ORDER_DETAILS'(state, id) {
+
+        const record = state.orders.find(element => element.order_id === id);
+
+        state.searchedOrder.push(record);
+
     }
 
 };
 
-const actions = {}
+const actions = {
+
+    searchingOrder: ({commit}, id) => {
+
+        commit('SEARCH_ORDER_DETAILS', id);
+
+    },
+}
 
 const getters = {
 
@@ -77,17 +91,18 @@ const getters = {
 
     },
 
-    // getMyOrders: (state, email) => {
-    //
-    //     return state.orders.find(element => element.email === email.currentUser.email);
-    //
-    // }
-
     getMyOrders: (state, email) => {
 
         return state.orders.find(element => element.email === email.currentUser.email);
 
-    }
+    },
+
+    getSearchedOrder: (state)=>{
+
+        return state.getSearchedOrder;
+
+    },
+
 };
 
 export default {

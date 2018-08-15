@@ -6,7 +6,7 @@
                 <th style="width:10%">Customer</th>
                 <th style="width:40%">Shopping</th>
                 <th style="width:30%" class="text-center">Total</th>
-                <th style="width:10%" class="text-center">STATUS</th>
+                <th style="width:10%" class="text-center">Status</th>
                 <th style="width:10%">Action</th>
             </tr>
             </thead>

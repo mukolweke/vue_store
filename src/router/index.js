@@ -84,7 +84,7 @@ let router = new Router({
 
         },
         {
-            path: '/order_view',
+            path: '/order_view/',
             name: 'order_view',
             component: OrderView,
             meta: {
