@@ -26,6 +26,13 @@ const toUp = function (value) {
     return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
+const formatDate = function (value) {
+        if (value === null) {
+            return '';
+        }
+        return moment(value).format('MM/DD/YYYY hh:mm');
+    }
+
 Vue.filter('camel', camel);
 
 Vue.filter('readMore', readMore);
@@ -36,6 +43,8 @@ Vue.filter('toQTY', toQTY);
 
 Vue.filter('toUp', toUp);
 
+Vue.filter('formatDate', formatDate);
+
 
 export default {
     camel: camel,
@@ -43,4 +52,5 @@ export default {
     toKSH: toKSH,
     toQTY: toQTY,
     toUp: toUp,
+    formatDate:formatDate
 };

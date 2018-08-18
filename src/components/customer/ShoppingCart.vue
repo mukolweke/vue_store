@@ -6,12 +6,6 @@
     import CartItem from './CartItem.vue';
 
     export default {
-        data() {
-            return {
-                activeName: '1'
-            };
-        },
-
         computed: {
             ...mapGetters(['cartItemList', 'isLoggedIn', 'shopProductList', 'currentUser']),
 

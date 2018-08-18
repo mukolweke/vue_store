@@ -1,7 +1,7 @@
 <template>
     <div class="col-sm-4 col-lg-4 col-md-4 item" :class="{'list-group-item': products}">
         <div class="thumbnail ">
-            <img src="../../assets/ps4.jpg" alt="" class="grow thumbnail-image">
+            <img :src="item.product_image" alt="" class="grow thumbnail-image">
             <div class="caption margin-left-sm">
 
                 <h4 class="pull-right">{{ item.product_price | toFixed(2) | toKSH}}</h4>

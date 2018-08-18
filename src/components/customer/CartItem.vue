@@ -1,5 +1,5 @@
 <script>
-    import {mapActions, mapGetters} from 'vuex';
+    import {mapActions} from 'vuex';
 
     export default {
         props: ['cartItem'],
@@ -49,7 +49,7 @@
         <td data-th="Product">
             <div class="row">
                 <div class="col-sm-2 hidden-xs">
-                    <img src="../../assets/ps4.jpg" alt="..." class="img-responsive"/>
+                    <img :src="cartItem.product_image" alt="..." class="img-responsive"/>
                 </div>
                 <div class="col-sm-10">
                     <h4 class="nomargin">{{ cartItem.product_name }}</h4>

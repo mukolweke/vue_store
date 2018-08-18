@@ -12,6 +12,7 @@ import VueFire from 'vuefire'
 import {firebaseListener} from './firebase.conf'
 import locale from 'element-ui/lib/locale/lang/en';
 import 'element-ui/lib/theme-chalk/index.css';
+import moment from 'vue-moment'
 
 require('./filter/filter');
 
@@ -19,7 +20,7 @@ Vue.use(ElementUI, {locale});
 Vue.use(Vuex);
 Vue.use(VueFire);
 Vue.config.productionTip = false
-
+Vue.use(moment);
 
 firebaseListener(authStatusChange);
 
@@ -33,6 +34,7 @@ new Vue({
     router,
     Axios,
     ElementUI,
+    moment,
     vuexaxi,
     store,
     components: {App},

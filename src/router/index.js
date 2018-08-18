@@ -10,6 +10,7 @@ import ShoppingCart from '@/components/customer/ShoppingCart'
 import ProductDetails from '@/components/customer/ProductDetails';
 import WelcomeDash from '@/components/auth/WelcomeDash';
 import MyOrder from '@/components/customer/MyOrders';
+import OrderView from '@/components/admin/OrderView';
 
 Vue.use(Router)
 
@@ -77,6 +78,15 @@ let router = new Router({
             path: '/orders',
             name: 'order',
             component: Order,
+            meta: {
+                requiresAuth: true
+            }
+
+        },
+        {
+            path: '/order_view/',
+            name: 'order_view',
+            component: OrderView,
             meta: {
                 requiresAuth: true
             }
