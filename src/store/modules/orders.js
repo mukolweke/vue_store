@@ -10,12 +10,14 @@ const state = {
                 {
                     product_name: 'PS 4',
                     product_quantity: 1,
-                    product_price: 35000
+                    product_price: 35000,
+                    product_image: 'https://www.masoko.com/media/catalog/product/cache/image/700x700/e9c3970ab036de70892d86c6d221abfe/s/o/sony_ps4_game_fifa_18.jpg',
                 },
                 {
                     product_name: 'EARPHONES',
                     product_quantity: 5,
-                    product_price: 350
+                    product_price: 350,
+                    product_image: 'https://www.masoko.com/media/catalog/product/cache/image/700x700/e9c3970ab036de70892d86c6d221abfe/s/o/sony_ps4_game_fifa_18.jpg',
                 }
             ],
             status:0,
@@ -29,7 +31,8 @@ const state = {
                 {
                     product_name: 'XBOX-LIVE',
                     product_quantity: 1,
-                    product_price: 15000
+                    product_price: 15000,
+                    product_image: 'https://www.masoko.com/media/catalog/product/cache/image/700x700/e9c3970ab036de70892d86c6d221abfe/b/l/blackk.jpg',
                 },
             ],
             status:1,
@@ -43,7 +46,8 @@ const state = {
                 {
                     product_name: 'FIFA 18',
                     product_quantity: 1,
-                    product_price: 6000
+                    product_price: 6000,
+                    product_image: 'https://www.masoko.com/media/catalog/product/cache/image/700x700/e9c3970ab036de70892d86c6d221abfe/c/u/cuh1206a.jpg',
                 },
             ],
             status:0,
